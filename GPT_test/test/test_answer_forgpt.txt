@@ -1,0 +1,2448 @@
+Input: the unit cost $ 275 to start with , so it is not worth repairing .
+Output: [('unit', 'LAPTOP PRICE', 'not worth', 'Negative')]
+
+Input: going from acer 15 to acer 11 was difficult , 11 inches seems too small for me .
+Output: [('acer 11', 'LAPTOP DESIGN_FEATURES', 'difficult', 'Negative'), ('acer 11', 'LAPTOP DESIGN_FEATURES', 'small', 'Negative')]
+
+Input: also it ' s not a true ssd drive in there but emmc , which makes a difference .
+Output: [('ssd drive', 'HARD_DISC OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the computer has difficulty switching between tablet and computer .
+Output: [('computer', 'LAPTOP USABILITY', 'difficulty', 'Negative')]
+
+Input: 2 / 28 / 18 - a couple days ago i updated the chrome os .
+Output: [('chrome os', 'OS GENERAL', 'NULL', 'Neural')]
+
+Input: it ' s just that chrome doesn ' t work the same with a chromebook as it does with windows .
+Output: [('chrome', 'OS OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: hopefully in 10 years they ' ll have this figured out and it won ' t suck so badly .
+Output: [('NULL', 'LAPTOP GENERAL', 'suck', 'Negative'), ('NULL', 'LAPTOP GENERAL', 'badly', 'Negative')]
+
+Input: bought this last year on july .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: i rarely use the keyboard .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'rarely', 'Negative')]
+
+Input: - great price for a touchscreen chromebook
+Output: [('touchscreen chromebook', 'LAPTOP PRICE', 'great', 'Positive')]
+
+Input: it is glitchy , and barely usable .
+Output: [('NULL', 'HARDWARE OPERATION_PERFORMANCE', 'glitchy', 'Negative'), ('NULL', 'HARDWARE OPERATION_PERFORMANCE', 'barely usable', 'Negative')]
+
+Input: i ordered one , the touch pad failed to work consistently .
+Output: [('touch pad', 'HARDWARE OPERATION_PERFORMANCE', 'failed', 'Negative')]
+
+Input: i often find i ' ve typed an entire sentence ( or more ) with my fingers on the wrong keys , which is very unproductive when trying to take real - time notes in a meeting !
+Output: [('keys', 'KEYBOARD GENERAL', 'unproductive', 'Negative')]
+
+Input: i know it only takes a few seconds , but a new device should not be doing this and makes me question if it ' ll get worse in the future .
+Output: [('device', 'LAPTOP GENERAL', 'worse', 'Negative')]
+
+Input: i also have to press the trackpad very hard for left click ( not as badly as the first unit , though ) , and i lost right click functionality on the track pad 2 days into my voyage with this thing .
+Output: [('track pad', 'KEYBOARD USABILITY', 'NULL', 'Negative')]
+
+Input: i tried factory resetting after i updated the os , and it still drained 9 % over 8 hours .
+Output: [('os', 'OS GENERAL', 'NULL', 'Neural')]
+
+Input: hdmi out doesn ' t work right .
+Output: [('hdmi', 'PORTS QUALITY', 'NULL', 'Negative')]
+
+Input: they had it over a week and then shipped back .
+Output: [('NULL', 'SUPPORT GENERAL', 'NULL', 'Neural')]
+
+Input: i was excited to receive this chromebook , only to watch that excitement dissipate within mere hours as i noticed the touchscreen did n ' t work at all on tablet mode .
+Output: [('touchscreen', 'HARDWARE OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: clearly there is some kind of major defect here that acer has n ' t resolved .
+Output: [('acer', 'COMPANY GENERAL', 'defect', 'Negative')]
+
+Input: i bought this for my daughter to use to take online classes while she ' s overseas in europe for a year .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: decent sound quality .
+Output: [('sound', 'MULTIMEDIA_DEVICES QUALITY', 'decent', 'Positive')]
+
+Input: flimsy power adapter .
+Output: [('power adapter', 'POWER_SUPPLY GENERAL', 'flimsy', 'Negative')]
+
+Input: wi - fi slows down to crowl and speeds back up intermittently .
+Output: [('wi - fi', 'PORTS QUALITY', 'NULL', 'Negative')]
+
+Input: regret buying it at times .
+Output: [('NULL', 'LAPTOP GENERAL', 'regret', 'Negative')]
+
+Input: it just turned off and will not turn back on .
+Output: [('NULL', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: the product is great , but the customer support is horrible .
+Output: [('product', 'LAPTOP GENERAL', 'great', 'Positive'), ('customer support', 'SUPPORT GENERAL', 'horrible', 'Negative')]
+
+Input: called support a second time after 10 minutes of verifying some type of info they told me to call google without even trying to help .
+Output: [('support', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: but i ' m getting into photography now , and it ' s terrible for loading , storing , and editing pictures .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'terrible', 'Negative')]
+
+Input: i have sent it in twice already and waiting for it to come back .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: the screen looked great .
+Output: [('screen', 'DISPLAY GENERAL', 'great', 'Positive')]
+
+Input: no matter how many times i reinserted the charging adapter , i kept getting this message .
+Output: [('charging adapter', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i had no option but to shut down the computer , unplug it , plug it back in , and then reboot .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it has worked well except for an initial hiccup on turning it on .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: the screen flashes for a second every 30 seconds or so .
+Output: [('screen', 'DISPLAY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i noticed the battery went down to 67 % for no reason .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: works good but the fan kicks in pretty often , which is to keep the laptop cool but the sound is annoying .
+Output: [('fan', 'FANS&COOLING OPERATION_PERFORMANCE', 'annoying', 'Negative'), ('sound', 'FANS&COOLING OPERATION_PERFORMANCE', 'annoying', 'Negative')]
+
+Input: nano edge display is nice .
+Output: [('nano edge display', 'DISPLAY OPERATION_PERFORMANCE', 'nice', 'Positive')]
+
+Input: everything was fine and i went out for an hour .
+Output: [('NULL', 'LAPTOP GENERAL', 'fine', 'Positive')]
+
+Input: the audio is almost impossible to hear .
+Output: [('audio', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it is slow to do everything .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: here ' s the kicker : it is doing a terrible job running dragon age .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'terrible', 'Negative')]
+
+Input: it doesn ' t has backlit keyboard : ( typing in low light is such a pain .
+Output: [('backlit keyboard', 'KEYBOARD DESIGN_FEATURES', 'pain', 'Negative')]
+
+Input: very disappointed in how slow it seems .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'disappointed', 'Negative'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: keyboard and mouse pad seem fine , but overall it seems strangely slow .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'fine', 'Positive'), ('mouse pad', 'KEYBOARD DESIGN_FEATURES', 'fine', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'slow', 'Negative')]
+
+Input: i have been using this for just 3 months .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: crazy keypad : this issue is even worse .
+Output: [('keypad', 'KEYBOARD GENERAL', 'crazy', 'Negative'), ('keypad', 'KEYBOARD GENERAL', 'worse', 'Negative')]
+
+Input: overall , the laptop has a solid feel to it .
+Output: [('laptop', 'LAPTOP GENERAL', 'solid', 'Positive')]
+
+Input: this lead me to believe that although i purchased a “ new ” product , they sent me a refurbished one instead .
+Output: [('product', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: i ' m out from us , i live in colombia , and maybe i can not return these laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: i like the speed , the processor the hybrid storage units ( 128ssd and 1tera ) , but the web cam sucks , really poor resolution and the keyboard doesn ' t have the numerical part and the caps lock or num lock don ' t have any light or guide to help you .
+Output: [('processor', 'CPU OPERATION_PERFORMANCE', 'like', 'Positive'), ('hybrid storage units', 'MEMORY GENERAL', 'like', 'Positive'), ('web cam', 'HARDWARE OPERATION_PERFORMANCE', 'sucks', 'Negative'), ('web cam', 'HARDWARE OPERATION_PERFORMANCE', 'poor', 'Negative'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative'), ('caps lock', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative'), ('num lock', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: lightweight .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive')]
+
+Input: yesterday the backlight went out .
+Output: [('backlight', 'KEYBOARD OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it was brand new out of the box , i ' ve never dropped it .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: now i have to deal with warranty stuff and sending it back etc .
+Output: [('warranty stuff', 'WARRANTY GENERAL', 'NULL', 'Neural')]
+
+Input: ram upgrade available
+Output: [('ram', 'HARDWARE GENERAL', 'available', 'Positive')]
+
+Input: hard drive upgrade available
+Output: [('hard drive', 'MEMORY OPERATION_PERFORMANCE', 'available', 'Positive')]
+
+Input: i had issues with the touchpad sticking or not responding to click correctly from the start .
+Output: [('touchpad', 'HARDWARE OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it ' s still a mainly functional computer , but using it is just not the greatest .
+Output: [('computer', 'LAPTOP GENERAL', 'functional', 'Neural'), ('computer', 'LAPTOP GENERAL', 'not the greatest', 'Neural')]
+
+Input: we ' ve had the computer for 5 weeks , used it a total of less than 20 hours , and now it will be gone for 3 weeks .
+Output: [('computer', 'LAPTOP GENERAL', 'NULL', 'Neural'), ('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: i send it to asus warranty and now after a week they ' re sending it back stating the no problem was found .
+Output: [('asus warranty', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: display stop working within 2 months .
+Output: [('display', 'DISPLAY GENERAL', 'NULL', 'Negative')]
+
+Input: since it came with no user manual , i had to call asus customer support and got someone who knew all about windows 10 software but nothing about my asus notebook .
+Output: [('asus customer support', 'SUPPORT OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: after reading all the bad reviews , just sent it back for a refund .
+Output: [('NULL', 'LAPTOP QUALITY', 'bad', 'Negative')]
+
+Input: all over this asus laptop which has a non - functioning touchpad .
+Output: [('asus laptop', 'LAPTOP GENERAL', 'NULL', 'Negative'), ('touchpad', 'HARDWARE QUALITY', 'non - functioning', 'Negative')]
+
+Input: my screen broke when just putting a textbook on it .
+Output: [('screen', 'DISPLAY GENERAL', 'NULL', 'Negative')]
+
+Input: don ' t even bother calling customer support , in my experience , they do you no good .
+Output: [('customer support', 'SUPPORT GENERAL', 'no good', 'Negative')]
+
+Input: keyboard needs to be redesigned entirely .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: 6 ` ` screen is big enough to read with ease , yet the item itself is light enough to tote to meetings .
+Output: [('NULL', 'DISPLAY DESIGN_FEATURES', 'big', 'Positive'), ('NULL', 'DISPLAY DESIGN_FEATURES', 'ease', 'Positive'), ('item', 'LAPTOP PORTABILITY', 'light', 'Positive')]
+
+Input: so far , this looks as if it meets my needs as a good ` ` work machine . ` `
+Output: [('work machine', 'LAPTOP GENERAL', 'good', 'Positive')]
+
+Input: after exactly one year of useage this computer completely stopped working .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it boots up in 10 seconds and shuts down in 2 to 3 seconds .
+Output: [('boots up', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive'), ('shuts down', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: i like the idea that the keyboard lights up and has a ` ` time out ` ` feature to shut off .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'like', 'Positive')]
+
+Input: it seems put together well .
+Output: [('NULL', 'LAPTOP GENERAL', 'well', 'Positive')]
+
+Input: what they lack in size , they make up for in raw speed , durability , and energy efficiency .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Negative'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: + decent quantity of available ports
+Output: [('ports', 'PORTS QUALITY', 'decent', 'Positive'), ('ports', 'PORTS QUALITY', 'available', 'Positive')]
+
+Input: + it has a dvd drive : o
+Output: [('dvd drive', 'OPTICAL_DRIVES GENERAL', 'NULL', 'Neural')]
+
+Input: - it runs hot !
+Output: [('NULL', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: running grid benchmark , it got to a high 92 / 93 degrees c !
+Output: [('NULL', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: - new i5 mobile processor .
+Output: [('i5 mobile processor', 'CPU GENERAL', 'NULL', 'Neural')]
+
+Input: - ddr4 ram that is upgradable .
+Output: [('ddr4 ram', 'MEMORY GENERAL', 'upgradable', 'Positive')]
+
+Input: - very decent battery life .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'decent', 'Positive')]
+
+Input: so far i am pleasantly impressed with this unit , however i have not used it a long time or tested many applications to date .
+Output: [('unit', 'LAPTOP GENERAL', 'pleasantly', 'Positive')]
+
+Input: i can certainly say this is the best laptop i ' ve ever had ( but then again i ' ve only had 3 , and you would expect these things to improve over time , right ) .
+Output: [('laptop', 'LAPTOP GENERAL', 'best', 'Positive')]
+
+Input: i ' ve been using it for at least 4 hours since last charged in that 23 % used up .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: - as others have mentioned , the keyboard backlight turns off after just a few seconds of not typing , which can be annoying and there doesn ' t seem to be a way to change this .
+Output: [('keyboard backlight', 'KEYBOARD OPERATION_PERFORMANCE', 'annoying', 'Negative')]
+
+Input: - easily upgradeable ram
+Output: [('ram', 'MEMORY USABILITY', 'upgradeable', 'Positive')]
+
+Input: one feature that i love is the ability to disable the touchpad from the keyboard .
+Output: [('touchpad', 'KEYBOARD DESIGN_FEATURES', 'love', 'Positive'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'love', 'Positive')]
+
+Input: it ' s not fancy , but it ' s good value and fast and trouble - free .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'not fancy', 'Neural'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'good', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'trouble - free', 'Positive')]
+
+Input: after spending some time with it , the feature can really be useful .
+Output: [('feature', 'KEYBOARD DESIGN_FEATURES', 'useful', 'Positive')]
+
+Input: easily upgrade to storage and ram .
+Output: [('ram', 'MEMORY USABILITY', 'NULL', 'Positive')]
+
+Input: this does not really matter to me because the mx150 is enough for my needs .
+Output: [('mx150', 'GRAPHICS DESIGN_FEATURES', 'NULL', 'Neural')]
+
+Input: i love the solid state drive , as reviews or ads say you can boot up and get onto internet in 10 to 15 seconds .
+Output: [('solid state drive', 'HARD_DISC GENERAL', 'love', 'Positive')]
+
+Input: it ' s not a ` ` gaming ` ` laptop even it can do some more casual gaming .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: it ' s super fast , boots up in seconds .
+Output: [('boots up', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: i am very impressed with this system .
+Output: [('system', 'OS OPERATION_PERFORMANCE', 'impressed', 'Positive')]
+
+Input: mastercam itself runs pretty good .
+Output: [('mastercam', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: as usual amazon was great about returning it .
+Output: [('amazon', 'SUPPORT QUALITY', 'great', 'Positive')]
+
+Input: screen is decent , not great , it is matte finished .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'decent', 'Positive'), ('screen', 'DISPLAY DESIGN_FEATURES', 'not great', 'Positive')]
+
+Input: i like the back lit keyboard .
+Output: [('back lit keyboard', 'KEYBOARD DESIGN_FEATURES', 'like', 'Positive')]
+
+Input: it ' s a lot of good for a comparatively cheap price .
+Output: [('NULL', 'LAPTOP PRICE', 'good', 'Positive'), ('NULL', 'LAPTOP PRICE', 'cheap', 'Positive')]
+
+Input: the screen is perfectly adequate .
+Output: [('screen', 'DISPLAY OPERATION_PERFORMANCE', 'perfectly', 'Positive')]
+
+Input: this thing boots up super quick and it sleek and beautiful .
+Output: [('boots up', 'LAPTOP OPERATION_PERFORMANCE', 'quick', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'sleek', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'beautiful', 'Positive')]
+
+Input: google and partners have done great with chromebooks and have plenty of features to accommodate .
+Output: [('google and partners', 'COMPANY GENERAL', 'great', 'Positive')]
+
+Input: i would highly recommend this to anyone , but especially to someone wanting something that is affordable , easy to use and just a bit more than a tablet .
+Output: [('NULL', 'LAPTOP PRICE', 'affordable', 'Positive'), ('NULL', 'LAPTOP USABILITY', 'easy', 'Positive')]
+
+Input: i ' m getting very used to the multiple finger shortcuts on the touch pad when navigating chrome .
+Output: [('touch pad', 'KEYBOARD USABILITY', 'NULL', 'Positive')]
+
+Input: this thing is still fantastic for what it is .
+Output: [('NULL', 'LAPTOP GENERAL', 'fantastic', 'Positive')]
+
+Input: i chose to purchase a samsung chromebook this time just to try out a different company and because it was inexpensive ( i paid $ 189 .
+Output: [('samsung chromebook', 'LAPTOP PRICE', 'inexpensive', 'Positive')]
+
+Input: i couldn ' t be happier with this product !
+Output: [('product', 'LAPTOP GENERAL', "' t be happier", 'Positive')]
+
+Input: the screen hinge is super strong and it ' s hard to imagine it breaking unless you dropped it .
+Output: [('screen hinge', 'DISPLAY QUALITY', 'strong', 'Positive')]
+
+Input: the size is perfect , it ' s easy to toss it in my satchel or backpack along with my textbook and notebooks and have plenty of room .
+Output: [('size', 'LAPTOP DESIGN_FEATURES', 'perfect', 'Positive'), ('NULL', 'LAPTOP PORTABILITY', 'perfect', 'Positive')]
+
+Input: works great right out of the box , as advertised .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: the battery life on this seems good .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: this chromebook instantly connects to the internet .
+Output: [('chromebook', 'LAPTOP CONNECTIVITY', 'NULL', 'Positive')]
+
+Input: going to a grocery store or fitness center , the android tablets took so long to connect that i finished my shopping before they came online .
+Output: [('android tablets', 'LAPTOP CONNECTIVITY', 'NULL', 'Negative')]
+
+Input: everything is perfect .
+Output: [('NULL', 'LAPTOP GENERAL', 'perfect', 'Positive')]
+
+Input: powers up immediately , great battery life , great keyboard , amazing features .
+Output: [('powers up', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive'), ('battery life', 'BATTERY GENERAL', 'great', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', 'NULL', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'amazing', 'Positive')]
+
+Input: was considering an apple product but i ' m much happier with this !
+Output: [('NULL', 'LAPTOP GENERAL', 'happier', 'Positive')]
+
+Input: this is my third samsung chromebook and i will continue to use this brand .
+Output: [('samsung chromebook', 'LAPTOP GENERAL', 'NULL', 'Positive'), ('brand', 'COMPANY GENERAL', 'NULL', 'Positive')]
+
+Input: does not act like a tablet , but it can have almost 10 tabs open before affecting performance , including video streaming .
+Output: [('tablet', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: this was purchased for my son to download his high school textbooks for use .
+Output: [('NULL', 'LAPTOP USABILITY', 'NULL', 'Neural')]
+
+Input: great price for a good book used for college students who carry all day
+Output: [('book', 'LAPTOP GENERAL', 'good', 'Positive'), ('book', 'LAPTOP PRICE', 'great', 'Positive')]
+
+Input: i bought this refurbished and haven ' t experienced any issues .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: this laptop is very straight forward .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: otherwise , it ' s great .
+Output: [('NULL', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: also , secure os .
+Output: [('os', 'OS OPERATION_PERFORMANCE', 'secure', 'Positive')]
+
+Input: the product itself is awesome .
+Output: [('product', 'LAPTOP GENERAL', 'awesome', 'Positive')]
+
+Input: great little laptop and tablet !
+Output: [('laptop', 'LAPTOP GENERAL', 'great', 'Positive'), ('tablet', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: the chormebook works as described by seller .
+Output: [('chormebook', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: i like the size and features .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'like', 'Positive')]
+
+Input: however , still 5 stars as you get what you pay for : a cheap , decently rugged , light weight notebook to kick around and tinker with .
+Output: [('notebook', 'LAPTOP PRICE', 'cheap', 'Positive'), ('notebook', 'LAPTOP DESIGN_FEATURES', 'decently', 'Positive'), ('notebook', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive')]
+
+Input: love the keyboard .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'love', 'Positive')]
+
+Input: i am still getting use to the chromebook but i love it lightweight easy to bring with me as it doesnt take up much room !
+Output: [('chromebook', 'LAPTOP GENERAL', 'love', 'Positive'), ('chromebook', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive'), ('chromebook', 'LAPTOP DESIGN_FEATURES', 'easy', 'Positive')]
+
+Input: i am so glad i purchased this and would definitely purchase again .
+Output: [('NULL', 'LAPTOP GENERAL', 'glad', 'Positive')]
+
+Input: since it is the same platform used at school the navigation was easy to get used too .
+Output: [('navigation', 'SOFTWARE USABILITY', 'easy', 'Positive')]
+
+Input: great for going on the internet .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: it works well for her .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: we ran world of tank blitz ( using a game controller ) and roblocks on the low rez settings and experienced great appearance and ability to play .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: another little thing is the speaker isn ' t loud .
+Output: [('speaker', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: love it
+Output: [('NULL', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: great battery life .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: easy to take with and do homework on the go too !
+Output: [('NULL', 'LAPTOP PORTABILITY', 'easy', 'Positive')]
+
+Input: i would recommend it to anyone .
+Output: [('NULL', 'LAPTOP GENERAL', 'recommend', 'Positive')]
+
+Input: this is perfect .
+Output: [('NULL', 'LAPTOP GENERAL', 'perfect', 'Positive')]
+
+Input: battery life , speed , display and software were my additional top reasons why i went for the samsung .
+Output: [('battery life', 'BATTERY GENERAL', 'NULL', 'Positive'), ('samsung', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive'), ('display', 'DISPLAY GENERAL', 'NULL', 'Positive'), ('software', 'SOFTWARE GENERAL', 'NULL', 'Positive')]
+
+Input: the display is crisp and bright , setup literally takes under a minute , its fast , cheap , charges fast , lasts forever .
+Output: [('display', 'DISPLAY QUALITY', 'crisp', 'Positive'), ('display', 'DISPLAY QUALITY', 'bright', 'Positive'), ('setup', 'OS OPERATION_PERFORMANCE', 'fast', 'Positive'), ('setup', 'OS OPERATION_PERFORMANCE', 'cheap', 'Positive'), ('NULL', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: nice , i ordered this just for simple web browsing and personal use .
+Output: [('NULL', 'LAPTOP GENERAL', 'nice', 'Positive')]
+
+Input: i love my chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: it is taking me a while to get used to the small , tight keyboard .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'small', 'Negative'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'tight', 'Negative')]
+
+Input: after researching for a high quality laptop that would not break the bank , i finally chose this one .
+Output: [('laptop', 'LAPTOP QUALITY', 'high', 'Positive')]
+
+Input: delivery was a bit off but i blame usps on that , they suck in my area .
+Output: [('delivery', 'SHIPPING GENERAL', 'off', 'Negative'), ('usps', 'SHIPPING GENERAL', 'suck', 'Negative')]
+
+Input: amd a12 processor is quite fast when loading everything from an ssd .
+Output: [('amd a12 processor', 'CPU OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: light for its size , not much flex in the body .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive')]
+
+Input: stop what you ' re doing now and get this computer !
+Output: [('computer', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: this computer is the best thing you can get under 400 dollars .
+Output: [('computer', 'LAPTOP PRICE', 'best', 'Positive')]
+
+Input: great functioning computer .
+Output: [('computer', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: excellent laptop at a reasonable price .
+Output: [('laptop', 'LAPTOP GENERAL', 'excellent', 'Positive'), ('laptop', 'LAPTOP PRICE', 'reasonable', 'Positive')]
+
+Input: this laptop does all i need it to do .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: works flawlessly and decent battery life .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'decent', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'flawlessly', 'Positive')]
+
+Input: excelente laptop
+Output: [('laptop', 'LAPTOP GENERAL', 'excelente', 'Positive')]
+
+Input: great for graphics , nothing to complex but it can get the job done
+Output: [('graphics', 'GRAPHICS GENERAL', 'great', 'Positive')]
+
+Input: about what i was expecting / hoping it to be .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: it has been able to handle everything i ' ve needed for my business .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: it is fast enough for what we do , and it has all the features we needed for less .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: love our new laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: battery could last longer .
+Output: [('battery', 'BATTERY QUALITY', 'NULL', 'Negative')]
+
+Input: light weight , good battery life , sharp screen .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive'), ('battery', 'BATTERY GENERAL', 'good', 'Positive'), ('screen', 'DISPLAY DESIGN_FEATURES', 'sharp', 'Positive')]
+
+Input: he is very content with it and its features
+Output: [('NULL', 'LAPTOP GENERAL', 'content', 'Positive')]
+
+Input: great performance , quiet and cool processor .
+Output: [('processor', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive'), ('processor', 'LAPTOP OPERATION_PERFORMANCE', 'quiet', 'Positive'), ('processor', 'CPU GENERAL', 'cool', 'Positive')]
+
+Input: the sims 4 ran very smoothly on regular graphics .
+Output: [('graphics', 'DISPLAY OPERATION_PERFORMANCE', 'smoothly', 'Positive')]
+
+Input: i was really excited to get this laptop !
+Output: [('laptop', 'LAPTOP GENERAL', 'excited', 'Positive')]
+
+Input: runs first person shooters relatively well .
+Output: [('first person shooters', 'SOFTWARE OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: would definitely buy this again if i needed to do so .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: laptop booted right up and the set up waa super easy .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive'), ('laptop', 'LAPTOP USABILITY', 'easy', 'Positive')]
+
+Input: the ones that do , doesn ' t have the numbering pad on the right side of the keyboard and i needed that .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: it ' s a very good lappy and i ' m happy with it , because it can still get all i need to do , done .
+Output: [('lappy', 'LAPTOP GENERAL', 'good', 'Positive'), ('lappy', 'LAPTOP GENERAL', 'happy', 'Positive')]
+
+Input: nice and thin , light , surprised it has a dvd player in it .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'thin', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'surprised', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'nice', 'Positive')]
+
+Input: for my needs it ' s a perfect computer with one major flaw : battery life is much shorter than they advertise !
+Output: [('computer', 'LAPTOP GENERAL', 'perfect', 'Positive'), ('battery life', 'BATTERY OPERATION_PERFORMANCE', 'shorter', 'Negative')]
+
+Input: mine did lose its screen backlight suddenly when i ' d had it less than a month .
+Output: [('screen', 'DISPLAY QUALITY', 'NULL', 'Negative')]
+
+Input: fast processor .
+Output: [('processor', 'CPU OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: if you want a laptop ( not for gaming - reviews say - i have not tried ) get this one !
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: i think the battery is just undersized for the amd a12 apu .
+Output: [('battery', 'BATTERY DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: this is an excellent laptop with a lot of heart .
+Output: [('laptop', 'LAPTOP GENERAL', 'excellent', 'Positive')]
+
+Input: the dvd player is a really nice touch as well , i didn ' t think i would use it but i definitely will in the future !
+Output: [('dvd player', 'OPTICAL_DRIVES GENERAL', 'nice', 'Positive')]
+
+Input: has all the available ports that i need .
+Output: [('ports', 'PORTS GENERAL', 'NULL', 'Positive')]
+
+Input: laptop is very fast with 4cpu and 8gpu on board .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: great computer , you can play 2015 and below games on this computer .
+Output: [('computer', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: great laptop !
+Output: [('laptop', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: she can stream music or videos , do her homework , and so on , so we are all pleased with our purchase .
+Output: [('NULL', 'LAPTOP GENERAL', 'pleased', 'Positive')]
+
+Input: cpu performance does well .
+Output: [('cpu', 'CPU OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: i bought this for college to do my homework and also pay my bills .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: really like it .
+Output: [('NULL', 'LAPTOP GENERAL', 'like', 'Positive')]
+
+Input: played heroes of the storm with graphics up full and wasn ' t any lag .
+Output: [('graphics', 'GRAPHICS OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: webpages load quickly .
+Output: [('NULL', 'SOFTWARE OPERATION_PERFORMANCE', 'quickly', 'Positive')]
+
+Input: but i guess , it ' s got a lot of power going to that processor so you can ' t have it all .
+Output: [('processor', 'CPU OPERATION_PERFORMANCE', 'NULL', 'Neural')]
+
+Input: for us , it was perfect .
+Output: [('NULL', 'LAPTOP GENERAL', 'perfect', 'Positive')]
+
+Input: i got ta say this was my first ever online computer / laptop order and let me tell you its pretty good .
+Output: [('computer', 'LAPTOP GENERAL', 'good', 'Positive'), ('laptop', 'LAPTOP GENERAL', 'good', 'Positive')]
+
+Input: i love how sleek and thin it is .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'love', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'sleek', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'thin', 'Positive')]
+
+Input: great feel to the keyboard as well .
+Output: [('keyboard', 'KEYBOARD USABILITY', 'great', 'Positive')]
+
+Input: this is a super fast computer and i really like it .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: it ' s so far a solid laptop that i can use for some gaming and school .
+Output: [('laptop', 'LAPTOP GENERAL', 'solid', 'Positive')]
+
+Input: i purchased the laptop in august , and i already have a couple of keys popping off .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: i almost always keep it plugged in , so i can ' t comment on battery life .
+Output: [('battery life', 'BATTERY GENERAL', 'NULL', 'Neural')]
+
+Input: battery life is short , but plugging it in works .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'short', 'Negative')]
+
+Input: sleek design .
+Output: [('design', 'LAPTOP DESIGN_FEATURES', 'sleek', 'Positive')]
+
+Input: easy to use .
+Output: [('NULL', 'LAPTOP USABILITY', 'easy', 'Positive')]
+
+Input: nice computer for responsible grade school child .
+Output: [('computer', 'LAPTOP GENERAL', 'nice', 'Positive')]
+
+Input: this laptop is well engineered and designed .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'well', 'Positive')]
+
+Input: this is a very nice laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'nice', 'Positive')]
+
+Input: it is perfect for everything i need it for .
+Output: [('NULL', 'LAPTOP GENERAL', 'perfect', 'Positive')]
+
+Input: provided just what i wanted at a resonable price .
+Output: [('NULL', 'LAPTOP PRICE', 'resonable', 'Positive')]
+
+Input: this laptop is fast and does what i need without problems .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: great price and great performance but terrible battery .
+Output: [('NULL', 'LAPTOP PRICE', 'NULL', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive'), ('battery', 'BATTERY GENERAL', 'terrible', 'Negative')]
+
+Input: it is a little slow .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: great computer , setup was fast and easy .
+Output: [('computer', 'LAPTOP GENERAL', 'great', 'Positive'), ('setup', 'LAPTOP USABILITY', 'fast', 'Positive'), ('setup', 'LAPTOP USABILITY', 'easy', 'Positive')]
+
+Input: i am inlove with this laptop literally , it ' s nice size 15 .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'nice', 'Positive')]
+
+Input: graphics are good for the level of this laptop .
+Output: [('graphics', 'GRAPHICS GENERAL', 'good', 'Positive')]
+
+Input: finally got the warranty honored after almost 6 months .
+Output: [('warranty', 'WARRANTY GENERAL', 'NULL', 'Negative')]
+
+Input: plenty of buyer returned it since the touch screen has phantom touch problems right after unboxing or it will eventually happen within 3 months .
+Output: [('touch screen', 'DISPLAY QUALITY', 'NULL', 'Negative')]
+
+Input: consequently , i am no longer covered and my otherwise great chromebook becomes unusable anytime the phantom touches appear .
+Output: [('chromebook', 'LAPTOP GENERAL', 'great', 'Positive'), ('phantom touches', 'KEYBOARD GENERAL', 'NULL', 'Negative')]
+
+Input: i have tried to fix the pixel with online videos and websites with no effect .
+Output: [('pixel', 'DISPLAY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the beautiful screen is said to be identical to the pixelbook in size , aspect ratio , and resolution .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'beautiful', 'Positive')]
+
+Input: after using the 3 : 2 aspect ratio , i think i prefer it to normal 16 : 9 , as far as chromebooks go .
+Output: [('NULL', 'DISPLAY DESIGN_FEATURES', 'NULL', 'Neural')]
+
+Input: it was fine for a solid two days , from there on it has been nonstop , reset to factory settings .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fine', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'solid', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: idk if that ' s how chromeos usually is , or maybe there is something wrong with the hardware but this is very annoying .
+Output: [('hardware', 'HARDWARE QUALITY', 'annoying', 'Negative')]
+
+Input: i get that this is meant to store everything in the cloud so it should be no big deal , but when your trying to get work done where there is no access to the internet ( since google docs works offline ) it is practically useless when it has to reset itself to factory settings just after turning it on .
+Output: [('NULL', 'OS DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: the touch screen works wonderfully .
+Output: [('touch screen', 'DISPLAY OPERATION_PERFORMANCE', 'wonderfully', 'Positive')]
+
+Input: as others have noted , the backspace key is small .
+Output: [('backspace key', 'KEYBOARD DESIGN_FEATURES', 'small', 'Negative')]
+
+Input: my biggest irk today though is that the screen is not very durable .
+Output: [('screen', 'DISPLAY QUALITY', 'not very durable', 'Negative')]
+
+Input: hard reboot , reset , refresh + power , esc + refresh + power , charging , letting it drain , nothing brought it back to life .
+Output: [('NULL', 'LAPTOP USABILITY', 'hard', 'Negative')]
+
+Input: needless to say trip number three to best buy was a pure return , since being 0 / 2 on such an expensive device leaves a bad taste , you know ?
+Output: [('device', 'LAPTOP PRICE', 'expensive', 'Negative')]
+
+Input: gorgeous screen , small profile , lightweight , built in stylus , i could go on and on about how awesome this thing was .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'gorgeous', 'Positive'), ('profile', 'LAPTOP DESIGN_FEATURES', 'small', 'Positive'), ('profile', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive'), ('stylus', 'HARDWARE DESIGN_FEATURES', 'awesome', 'Positive')]
+
+Input: this review might be dismissed as i am missing the ` ` verified purchase ` ` stamp , which is fair .
+Output: [('verified purchase', 'SUPPORT GENERAL', 'NULL', 'Neural')]
+
+Input: i wouldn ' t recommend this as a starting computer for children because they ' d learn incorrect navigation and have to adapt later to standard laptops .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'recommend', 'Negative')]
+
+Input: look , dont buy it .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: the screen does look good .
+Output: [('screen', 'DISPLAY GENERAL', 'good', 'Positive')]
+
+Input: terrible quality and not really enjoyable to use apps on the playstore .
+Output: [('NULL', 'LAPTOP QUALITY', 'terrible', 'Negative'), ('apps', 'SOFTWARE GENERAL', 'not really enjoyable', 'Negative')]
+
+Input: battery life its ok .
+Output: [('battery life', 'BATTERY GENERAL', 'ok', 'Neural')]
+
+Input: then i got it home , worked with it for awhile , and realized just how easy it is to misfire unless you land dead nuts center in the middle of the key on your stroke .
+Output: [('NULL', 'KEYBOARD GENERAL', 'NULL', 'Negative')]
+
+Input: another star off for android app support , which simply isn ' t ready for prime time .
+Output: [('android app support', 'SOFTWARE QUALITY', 'NULL', 'Negative')]
+
+Input: i didn ' t find a single android app that was optimized for chrome os ( not that my search was exhaustive , admittedly ) , so was disappointed pretty much every time .
+Output: [('android app', 'SOFTWARE DESIGN_FEATURES', 'disappointed', 'Negative')]
+
+Input: battery life was mediocre , too , come to think of it .
+Output: [('battery life', 'BATTERY GENERAL', 'mediocre', 'Neural')]
+
+Input: amazon gave me the option of returning for refund or trying to have it repaired .
+Output: [('amazon', 'SUPPORT GENERAL', 'NULL', 'Neural')]
+
+Input: battery is good , display and keyboard are pretty great .
+Output: [('battery', 'BATTERY GENERAL', 'good', 'Positive'), ('display', 'DISPLAY GENERAL', 'great', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', 'great', 'Positive')]
+
+Input: there ' s nothing ` ` pro ` ` about this tablet .
+Output: [('tablet', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: unless it ' s a really bad baby and chromeos + samsung = bad baby !
+Output: [('chromeos', 'LAPTOP GENERAL', 'NULL', 'Negative'), ('samsung', 'COMPANY GENERAL', 'NULL', 'Negative'), ('samsung', 'COMPANY GENERAL', 'NULL', 'Negative')]
+
+Input: sounds nice until you realize that your computer just doesn ' t let you do things and then calls it secure .
+Output: [('computer', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: the keyboard lacks a backlight which is inconvenient in low light situations .
+Output: [('keyboard', 'KEYBOARD USABILITY', 'inconvenient', 'Negative')]
+
+Input: when you stack up all these strengths and offer them at a price of $ 299 , you ' re getting a fairly impressive value proposition here with this chromebook .
+Output: [('chromebook', 'LAPTOP PRICE', 'impressive', 'Positive')]
+
+Input: at $ 300 , this is a great purchase .
+Output: [('NULL', 'LAPTOP PRICE', 'great', 'Positive')]
+
+Input: which leads me to my next point , the omnipresent comments about ` ` this feels like a $ 1000 computer ! ` `
+Output: [('NULL', 'LAPTOP PRICE', 'NULL', 'Positive')]
+
+Input: this isn ' t say the acer is bad in the abstract ; far from it .
+Output: [('acer', 'COMPANY GENERAL', 'NULL', 'Positive')]
+
+Input: it has a nice , oversize trackpad that - like pretty much all chromebooks - is responsive and a pleasure to use .
+Output: [('trackpad', 'KEYBOARD DESIGN_FEATURES', 'nice', 'Positive'), ('trackpad', 'KEYBOARD DESIGN_FEATURES', 'oversize', 'Positive'), ('trackpad', 'KEYBOARD OPERATION_PERFORMANCE', 'responsive', 'Positive'), ('trackpad', 'KEYBOARD OPERATION_PERFORMANCE', 'pleasure', 'Positive')]
+
+Input: the performance never lags , it meets the 10 - 12 hour battery life promise in my usage tests , and it ' s quickly become my go - to computer for both home and work .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: this unit not only has a nice aluminum shell ( which is very attractive ) , but it also has a decent keyboard , with much better tactile properties than any chromebooks i ' ve looked at in the past .
+Output: [('aluminum shell', 'LAPTOP DESIGN_FEATURES', 'nice', 'Positive'), ('aluminum shell', 'LAPTOP DESIGN_FEATURES', 'attractive', 'Positive'), ('keyboard', 'LAPTOP DESIGN_FEATURES', 'decent', 'Positive'), ('keyboard', 'LAPTOP DESIGN_FEATURES', 'better', 'Positive')]
+
+Input: when i was comparing this model against other manufacturer ' s / model ' s , the only thing that made me pause was the lack of a card reader / writer .
+Output: [('card reader / writer', 'PORTS GENERAL', 'NULL', 'Negative')]
+
+Input: i love it !
+Output: [('NULL', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: this isn ' t a powerhouse , i ' ve never pushed it , it probably wouldn ' t handle the 20 + tabs over multiple windows / desktops that i ' m used to on chrome on the desktop , but for 99 % of ` ` regular people ` ` this is an unbelievably good laptop .
+Output: [('it', 'LAPTOP OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: the battery life is incredible and charges from 0 % to 100 % in about an hour and a half while in use .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'incredible', 'Positive')]
+
+Input: overall , it performs well enough for my daily internet needs .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: my only wish is that it were a little more quick / less laggy given it is a chromebook - but for the price point its a great buy .
+Output: [('NULL', 'LAPTOP PRICE', 'great', 'Positive')]
+
+Input: little bit of a learning curve with chrome os .
+Output: [('chrome os', 'OS GENERAL', 'NULL', 'Negative')]
+
+Input: so it appears the play store does not recognize this devise at this time .
+Output: [('devise', 'LAPTOP USABILITY', 'NULL', 'Negative')]
+
+Input: chromebook seems like the kind of device that you review after a few weeks , and by the time anything happens to it that affects use , the replacement will be just as much or cheaper , twice as powerful , and come with ` ` angry birds ` ` installed by default .
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: the hdmi and usb ports are on the left side , the back has no ports at all , and , misery !
+Output: [('hdmi and usb ports', 'PORTS DESIGN_FEATURES', 'misery', 'Negative')]
+
+Input: the initial feel for this chromebook is superb .
+Output: [('chromebook', 'LAPTOP GENERAL', 'superb', 'Positive')]
+
+Input: the quad - core celeron n3160 gets a respectable near - 8000 octane score .
+Output: [('quad - core celeron n3160', 'CPU OPERATION_PERFORMANCE', 'respectable', 'Positive')]
+
+Input: this is a solid , well - balanced design .
+Output: [('design', 'LAPTOP DESIGN_FEATURES', 'solid', 'Positive'), ('design', 'LAPTOP DESIGN_FEATURES', 'well - balanced', 'Positive')]
+
+Input: first time chromebook user , and this has been my favorite laptop ever .
+Output: [('laptop', 'LAPTOP GENERAL', 'favorite', 'Positive')]
+
+Input: i ' m been quite pleased at how well the chromebook has worked for all these tasks .
+Output: [('chromebook', 'LAPTOP OPERATION_PERFORMANCE', 'pleased', 'Positive')]
+
+Input: as for software , chromeos is a decent thin - client operating system which can do more than most people think .
+Output: [('chromeos', 'OS USABILITY', 'decent', 'Positive')]
+
+Input: i was hesitant at first because of the price , but i have to say that this is honestly an amazing machine .
+Output: [('NULL', 'LAPTOP PRICE', 'hesitant', 'Neural'), ('machine', 'LAPTOP GENERAL', 'amazing', 'Positive')]
+
+Input: secondly , this is a really aesthetically pleasing machine .
+Output: [('machine', 'LAPTOP DESIGN_FEATURES', 'pleasing', 'Positive')]
+
+Input: there are , as with everything , several growth opportunities for this model .
+Output: [('model', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: secondly , the trackpad feels a bit delicate .
+Output: [('trackpad', 'KEYBOARD QUALITY', 'delicate', 'Negative')]
+
+Input: the battery is good .
+Output: [('battery', 'BATTERY GENERAL', 'good', 'Positive')]
+
+Input: if you are looking for a laptop to check emails , watch movies , to shop , basic documentation , then this is an ideal one .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'ideal', 'Positive')]
+
+Input: i have had q & a on this chromebook asking if it will download ms office .
+Output: [('chromebook', 'LAPTOP USABILITY', 'NULL', 'Neural')]
+
+Input: battery seems to be pretty good .
+Output: [('battery', 'BATTERY GENERAL', 'good', 'Positive')]
+
+Input: with the slow celeron processor , browsing does not feel snappy .
+Output: [('celeron processor', 'CPU OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: this is my second chromebook and my next purchase will be a chromebase to replace my home pc .
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: it does everything that i need and is surprisingly fast .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: i want to cry because this doesn ' t support google play store !
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: i ' m a graphic designer / gamer and my creative software operates with no problems and i ' m able to play the sims 4 and world of warcraft on very high settings with no problems at all .
+Output: [('graphic', 'GRAPHICS OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: this is a huge plus !
+Output: [('NULL', 'LAPTOP PORTABILITY', 'NULL', 'Positive')]
+
+Input: - drives are now solid state drive .
+Output: [('solid state drive', 'HARD_DISC GENERAL', 'NULL', 'Neural')]
+
+Input: - new built - in speakers .
+Output: [('speakers', 'MULTIMEDIA_DEVICES DESIGN_FEATURES', 'new', 'Positive')]
+
+Input: - no dvd drive .
+Output: [('dvd drive', 'MULTIMEDIA_DEVICES GENERAL', 'NULL', 'Negative')]
+
+Input: i couldn ' t drag - and - drop items in it , but after i changed the behavior in settings , everything went well from there .
+Output: [('NULL', 'HARDWARE OPERATION_PERFORMANCE', 'well', 'Neural')]
+
+Input: it is pretty light if you are coming from any other laptop .
+Output: [('NULL', 'LAPTOP PORTABILITY', 'light', 'Positive')]
+
+Input: very sharp screen and good viewing angles .
+Output: [('screen', 'DISPLAY GENERAL', 'sharp', 'Positive'), ('screen', 'DISPLAY GENERAL', 'good', 'Positive')]
+
+Input: something about os x running with a high resolution display just looks classy in a way that a windows computer could never match .
+Output: [('os x', 'OS GENERAL', 'classy', 'Positive'), ('display', 'DISPLAY OPERATION_PERFORMANCE', 'classy', 'Positive')]
+
+Input: no complaints here .
+Output: [('NULL', 'BATTERY GENERAL', 'NULL', 'Positive')]
+
+Input: this computer is blazing fast .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: with os x yosemite , the os is very refined and elegant .
+Output: [('os x yosemite', 'OS OPERATION_PERFORMANCE', 'refined', 'Positive'), ('os x yosemite', 'OS OPERATION_PERFORMANCE', 'elegant', 'Positive'), ('os', 'OS OPERATION_PERFORMANCE', 'refined', 'Positive'), ('os', 'OS OPERATION_PERFORMANCE', 'elegant', 'Positive')]
+
+Input: the laptop works great and the package was delivered on time .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive'), ('package', 'SHIPPING GENERAL', 'NULL', 'Positive')]
+
+Input: this thing is fast and efficient .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'efficient', 'Positive')]
+
+Input: this computer is very high quality , do not believe anything on the market can touch it .
+Output: [('computer', 'LAPTOP QUALITY', 'high', 'Positive')]
+
+Input: the backlighting is comparable , but the mbp gets brighter .
+Output: [('backlighting', 'KEYBOARD GENERAL', 'comparable', 'Positive'), ('mbp', 'KEYBOARD DESIGN_FEATURES', 'brighter', 'Positive')]
+
+Input: the thunderbolt ports are a nice thing to have on the mbp .
+Output: [('thunderbolt ports', 'PORTS DESIGN_FEATURES', 'nice', 'Positive')]
+
+Input: the best laptop i ' ve owned .
+Output: [('laptop', 'LAPTOP GENERAL', 'best', 'Positive')]
+
+Input: bought it for my grandson for college and he loves it .
+Output: [('NULL', 'LAPTOP GENERAL', 'loves', 'Positive')]
+
+Input: overall , this is an excellent machine .
+Output: [('machine', 'LAPTOP GENERAL', 'excellent', 'Positive')]
+
+Input: good durability , outstanding performance and portability .
+Output: [('durability', 'LAPTOP QUALITY', 'good', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'outstanding', 'Positive'), ('portability', 'LAPTOP PORTABILITY', 'outstanding', 'Positive')]
+
+Input: response is excellent .
+Output: [('response', 'LAPTOP OPERATION_PERFORMANCE', 'excellent', 'Positive')]
+
+Input: - battery life appears to be excellent
+Output: [('battery life', 'BATTERY GENERAL', 'excellent', 'Positive')]
+
+Input: - laptop is light .
+Output: [('laptop', 'LAPTOP PORTABILITY', 'light', 'Positive')]
+
+Input: - generous selection of ports ( this is in reference to the newer model )
+Output: [('ports', 'PORTS DESIGN_FEATURES', 'generous', 'Positive')]
+
+Input: - laptop is sleek and dare i say , sexy
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'sleek', 'Positive'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'sexy', 'Positive')]
+
+Input: i enjoy the processing speed of this model .
+Output: [('model', 'CPU OPERATION_PERFORMANCE', 'enjoy', 'Positive')]
+
+Input: fast shipping , product exactly as described , authentic apple , new , factory sealed in box .
+Output: [('shipping', 'SHIPPING QUALITY', 'fast', 'Positive'), ('product', 'LAPTOP GENERAL', 'new', 'Positive')]
+
+Input: loving the sharp display and the track pad .
+Output: [('display', 'DISPLAY QUALITY', 'loving', 'Positive'), ('track pad', 'KEYBOARD GENERAL', 'loving', 'Positive')]
+
+Input: i am in love with how light and speedy it is .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'love', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'love', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'speedy', 'Positive')]
+
+Input: i love this macbook .
+Output: [('macbook', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: great product
+Output: [('product', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: this is an amazing computer i bought from cellelectronics .
+Output: [('computer', 'LAPTOP GENERAL', 'amazing', 'Positive')]
+
+Input: they put a lot of thought and work into making sure that the hardware and software work real well together .
+Output: [('NULL', 'COMPANY GENERAL', 'NULL', 'Positive'), ('hardware', 'HARDWARE GENERAL', 'well', 'Positive'), ('software', 'SOFTWARE GENERAL', 'well', 'Positive')]
+
+Input: obviously great computer
+Output: [('computer', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: very nice laptop , i love its portable feature and the running speed is very fast .
+Output: [('laptop', 'LAPTOP GENERAL', 'nice', 'Positive'), ('NULL', 'LAPTOP PORTABILITY', 'love', 'Positive'), ('running speed', 'CPU OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: the only issue i have with it ( and hence the four star rating ) is the battery life .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it is thinner , and lighter .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'thinner', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'lighter', 'Positive')]
+
+Input: awesome computer .
+Output: [('computer', 'LAPTOP GENERAL', 'awesome', 'Positive')]
+
+Input: the shipping was fast and the seller was great
+Output: [('shipping', 'SHIPPING OPERATION_PERFORMANCE', 'fast', 'Positive'), ('seller', 'SUPPORT GENERAL', 'great', 'Positive')]
+
+Input: the mac is great besides a chip under the mouse pad .
+Output: [('mac', 'LAPTOP GENERAL', 'great', 'Positive'), ('chip', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: the design is beautiful and the force feedback track pad is amazing .
+Output: [('design', 'LAPTOP DESIGN_FEATURES', 'beautiful', 'Positive'), ('track pad', 'KEYBOARD GENERAL', 'amazing', 'Positive')]
+
+Input: yeah the new mac book is lighter and only a little small but the internals are a lot slower .
+Output: [('mac book', 'LAPTOP DESIGN_FEATURES', 'lighter', 'Positive'), ('internals', 'HARDWARE DESIGN_FEATURES', 'slower', 'Negative')]
+
+Input: love this computer !
+Output: [('this computer', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: force touch trackpad , pretty freakin awesome .
+Output: [('trackpad', 'KEYBOARD GENERAL', 'awesome', 'Positive')]
+
+Input: works like a charm and the retina display is super gorgeous .
+Output: [('retina display', 'DISPLAY OPERATION_PERFORMANCE', 'gorgeous', 'Positive')]
+
+Input: the laptop arrived in excellent condition .
+Output: [('NULL', 'SHIPPING OPERATION_PERFORMANCE', 'excellent', 'Positive')]
+
+Input: i absolutely love the programs that come with it ; how the mac itself functions , the appearance and quality of the mac .
+Output: [('programs', 'SOFTWARE GENERAL', 'love', 'Positive')]
+
+Input: battery life thus far isn ' t nearly as long as i thought it would be , based upon video reviews of this model and item description .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: this macbook is such a blessing and i would feel somewhat lost without it .
+Output: [('macbook', 'LAPTOP GENERAL', 'blessing', 'Positive')]
+
+Input: if you ' re considering getting this macbook , proceed with confidence .
+Output: [('macbook', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: the ss hard drive has next to zero lag over traditional drives .
+Output: [('ss hard drive', 'HARD_DISC OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: it ' s far away from meeting my expectations .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: i really like how it isn ' t bulky .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'like', 'Positive')]
+
+Input: great price and customer service
+Output: [('NULL', 'LAPTOP PRICE', 'great', 'Positive'), ('customer service', 'SUPPORT GENERAL', 'great', 'Positive')]
+
+Input: however , i have an iphone and an ipad and the macbook does a great job syncing up everything on all three devises .
+Output: [('macbook', 'LAPTOP USABILITY', 'great', 'Positive')]
+
+Input: laptop works perfect however i did get a used charger that only lasted a week .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'perfect', 'Positive'), ('charger', 'POWER_SUPPLY QUALITY', 'NULL', 'Negative')]
+
+Input: awesome machine .
+Output: [('machine', 'LAPTOP GENERAL', 'awesome', 'Positive')]
+
+Input: costs a few bucks $ $ $ more but apple products are the best on the market .
+Output: [('apple products', 'COMPANY GENERAL', 'best', 'Positive')]
+
+Input: this computer is great for playing videos in a classroom setting of 10 people , connecting to an hdmi tv to show videos and powerpoints , and has a fantastic battery life .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive'), ('battery life', 'BATTERY QUALITY', 'fantastic', 'Positive')]
+
+Input: great price .
+Output: [('NULL', 'LAPTOP PRICE', 'great', 'Positive')]
+
+Input: great computer !
+Output: [('computer', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: i ' ve been using this laptop for 1 year and no issues with the deliver nor the computer .
+Output: [('computer', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: great prodcut
+Output: [('prodcut', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: i did not like the new 2016 model due to the lack of ports and magsafe connector .
+Output: [('2016 model', 'LAPTOP DESIGN_FEATURES', 'not like', 'Negative')]
+
+Input: shipping was fast and product came as described .
+Output: [('shipping', 'SHIPPING OPERATION_PERFORMANCE', 'fast', 'Positive'), ('product', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: apple updates are easy .
+Output: [('apple updates', 'SOFTWARE USABILITY', 'easy', 'Positive')]
+
+Input: it arrived in great condition , and it ' s been working perfectly for me since i got it .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'perfectly', 'Positive')]
+
+Input: high quaility computer in every way .
+Output: [('computer', 'LAPTOP QUALITY', 'high', 'Positive')]
+
+Input: i like this machine quite a bit .
+Output: [('machine', 'LAPTOP GENERAL', 'like', 'Positive')]
+
+Input: i was initially a little nervous as the system was somewhat glitchy for the first couple of weeks , seemed to be a problem with the chrome os because it was fixed by the next update .
+Output: [('system', 'OS USABILITY', 'nervous', 'Neural'), ('chrome os because', 'OS QUALITY', 'NULL', 'Negative')]
+
+Input: took a week or so to get used to , but love it now .
+Output: [('NULL', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: screen stays in whatever position you put it solidly enough to use the touchscreen .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'NULL', 'Neural')]
+
+Input: battery : solid .
+Output: [('battery', 'BATTERY QUALITY', 'solid', 'Positive')]
+
+Input: - speakers are a little tinny ( though the volume is awesome ) and it ' s not possible to customize the equalizer on the chrome os right now : (
+Output: [('speakers', 'MULTIMEDIA_DEVICES DESIGN_FEATURES', 'tinny', 'Negative'), ('speakers', 'MULTIMEDIA_DEVICES QUALITY', 'awesome', 'Positive'), ('chrome os', 'OS OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i mean , if you want a true tablet , buy a true tablet - - this did honestly keep me from investing in a kindle as i was planning to .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: i love that it is only as big as it needs to be to have a full - size keyboard ( not with a number pad , but full - sized keys ) .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Positive'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Positive')]
+
+Input: update it as soon as you turn it on !
+Output: [('NULL', 'SOFTWARE USABILITY', 'NULL', 'Neural')]
+
+Input: my trusty windows 7 laptop was on its last leg and i opted to try something new .
+Output: [('windows 7 laptop', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: however , it comes with 100 gb of free google drive online storage .
+Output: [('google drive online storage', 'HARD_DISC DESIGN_FEATURES', 'NULL', 'Positive')]
+
+Input: the touchscreen looks good and is responsive , and the keyboard is nice .
+Output: [('touchscreen', 'DISPLAY GENERAL', 'good', 'Positive'), ('touchscreen', 'DISPLAY OPERATION_PERFORMANCE', 'responsive', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', 'nice', 'Positive')]
+
+Input: people who complain that chromebooks are useless without internet access clearly are narrow minded and simply not thinking outside the box .
+Output: [('internet access', 'PORTS GENERAL', 'NULL', 'Positive')]
+
+Input: so i went to install my favorite screenwriting app , trelby , only to find its not available .
+Output: [('screenwriting app', 'SOFTWARE GENERAL', 'favorite', 'Positive')]
+
+Input: maybe this thing does suck without an internet connection .
+Output: [('NULL', 'LAPTOP CONNECTIVITY', 'suck', 'Negative')]
+
+Input: and just like that , i realized that i can use my studio desktop wherever i want , whenever i want .
+Output: [('studio desktop', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: it does make quite a loud click when you depress the button .
+Output: [('NULL', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: overall : i like it and am happy for paying a bit over $ 200 for the 4gb model ( at the time of writing this , it sells for $ 220 new ) .
+Output: [('model', 'LAPTOP PRICE', 'like', 'Positive')]
+
+Input: one plus i ' m particularly happy about : a quiet fan - less device that doesn ' t heat up too much !
+Output: [('fan - less device', 'FANS&COOLING QUALITY', 'happy', 'Positive'), ('fan - less device', 'FANS&COOLING QUALITY', 'quiet', 'Positive')]
+
+Input: i have to say , i was somewhat hesitant purchasing this chromebook mainly because of some of the reviews .
+Output: [('chromebook', 'LAPTOP QUALITY', 'hesitant', 'Negative')]
+
+Input: due to the excellent return policy on prime i decided to purchase this .
+Output: [('return policy', 'SUPPORT GENERAL', 'excellent', 'Positive')]
+
+Input: i downloaded pandora and listened to all my stations at 3 / 4 volume and it sounded fine .
+Output: [('NULL', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'fine', 'Positive')]
+
+Input: so far all but 1 of the android apps that i have tried have functioned properly , but some are restricted in the size of window that will work properly .
+Output: [('android apps', 'SOFTWARE OPERATION_PERFORMANCE', 'properly', 'Positive')]
+
+Input: laptop arrived dirty ( grimy screen and there was actual pet hair in the air vent ) .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'dirty', 'Negative'), ('screen', 'DISPLAY DESIGN_FEATURES', 'grimy', 'Negative'), ('air vent', 'FANS&COOLING GENERAL', 'NULL', 'Negative')]
+
+Input: i had to look up keys to press to get into a start up mode to even set up the computer
+Output: [('computer', 'LAPTOP USABILITY', 'NULL', 'Negative')]
+
+Input: i am not blaming the seller , i am blaming mac ' s os and its glitchy services .
+Output: [('seller', 'SUPPORT GENERAL', 'not blaming', 'Neural'), ("mac ' s os", 'OS OPERATION_PERFORMANCE', 'NULL', 'Negative'), ('services', 'SUPPORT GENERAL', 'glitchy', 'Negative')]
+
+Input: but currently i am happy with it , the battery is ok , and its very aesthetically pleasing .
+Output: [('NULL', 'LAPTOP GENERAL', 'happy', 'Positive'), ('battery', 'BATTERY GENERAL', 'ok', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'aesthetically', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'pleasing', 'Positive')]
+
+Input: ordered a macbook pro 13inch 256gb from this seller and with the exception of the power button , the keyboard and the trackpad wasn ' t working .
+Output: [('macbook pro', 'LAPTOP GENERAL', 'NULL', 'Negative'), ('power button', 'HARDWARE GENERAL', 'NULL', 'Neural'), ('keyboard', 'KEYBOARD QUALITY', 'NULL', 'Negative'), ('trackpad', 'HARDWARE QUALITY', 'NULL', 'Negative')]
+
+Input: the seller ' s description is that it was ` ` tested and fully functional ` ` and it wasn ' t .
+Output: [('seller', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: update : apparently the laptop sold to me was missing 5 screws on the inside that actually holds everything together .
+Output: [('laptop', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: while yes , the charger does look great coming out of the box , plan on buying another shortly thereafter - and after , as long as your patience holds up .
+Output: [('charger', 'POWER_SUPPLY DESIGN_FEATURES', 'great', 'Positive')]
+
+Input: do not waste your time calling apple to see if there is anything they can do about it after 1 year ( unless of course you want to pay even more money on ' apple care ' ) .
+Output: [('apple', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: as much as i love the computer , and tout macbook to all my friends , for me , it stops here and now .
+Output: [('computer', 'LAPTOP GENERAL', 'love', 'Positive'), ('macbook', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: the anti - reflective coating will wear off and it isn ' t covered under apple ' s warranty .
+Output: [('anti - reflective coating', 'LAPTOP QUALITY', 'NULL', 'Negative'), ("apple ' s warranty", 'WARRANTY GENERAL', 'NULL', 'Neural')]
+
+Input: the macbook pro offers a very dependable machine that will muddle - through anything you throw at it without complaining .
+Output: [('macbook pro', 'LAPTOP OPERATION_PERFORMANCE', 'dependable', 'Positive')]
+
+Input: 2 usb ports and 2 thunderbolt ports on a $ 4500nz laptop ?
+Output: [('usb ports', 'PORTS GENERAL', 'NULL', 'Negative'), ('thunderbolt ports', 'PORTS GENERAL', 'NULL', 'Negative')]
+
+Input: the ` ` ssd drive ` ` is not user replaceable .
+Output: [('ssd drive ` `', 'HARD_DISC GENERAL', 'NULL', 'Negative')]
+
+Input: the charger is defective and after 45 days of use the charger is shot .
+Output: [('charger', 'POWER_SUPPLY QUALITY', 'defective', 'Negative')]
+
+Input: first impressions , excellent looking laptop and very light !
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'excellent', 'Positive')]
+
+Input: i love the keyboard and the trackpad - i finally get it now why both of these have rave reviews .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'love', 'Positive'), ('trackpad', 'KEYBOARD GENERAL', 'love', 'Positive')]
+
+Input: the battery life is good - i get about 5 - 6 hours of non stop typing , with 3 browsers opened and wifi always on .
+Output: [('battery life', 'BATTERY GENERAL', 'good', 'Positive')]
+
+Input: it ' s not stated anywhere that ' s it ' s used .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: didn ' t purchase from amazon but i can not believe these laptops have 5 stars .
+Output: [('amazon', 'COMPANY GENERAL', 'NULL', 'Negative'), ('laptops', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: then one day , it stopped booting .
+Output: [('NULL', 'OS OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: my daughter loves it and it will be a great tool to help her through nursing school .
+Output: [('NULL', 'LAPTOP GENERAL', 'loves', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: apparently apple isn ' t even trying anymore .
+Output: [('apple', 'COMPANY GENERAL', 'NULL', 'Negative')]
+
+Input: * very good battery life
+Output: [('battery life', 'BATTERY QUALITY', 'good', 'Positive')]
+
+Input: it is not worth it .
+Output: [('NULL', 'LAPTOP GENERAL', 'not worth', 'Negative')]
+
+Input: i ' m still absolutely blown away how apple , a supposed industry leader , has such horrendous functionality .
+Output: [('apple', 'COMPANY GENERAL', 'horrendous', 'Negative')]
+
+Input: i purchased this notebook back in july and was initially happy with my purchase .
+Output: [('notebook', 'LAPTOP GENERAL', 'happy', 'Positive')]
+
+Input: after numerous calls , i then received confirmation the warranty was valid , but only as a ‘ one - off ' .
+Output: [('warranty', 'WARRANTY GENERAL', 'NULL', 'Negative')]
+
+Input: asus , has a horrible reputation .
+Output: [('asus', 'COMPANY GENERAL', 'horrible', 'Negative')]
+
+Input: my final verdict - it ' s somewhat solid as a device now that 6 months of updates and delays are behind us .
+Output: [('device', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: bright enough for all uses , and 1080p is perfect - images are sharp .
+Output: [('1080p', 'DISPLAY QUALITY', 'bright', 'Positive'), ('1080p', 'DISPLAY QUALITY', 'perfect', 'Positive')]
+
+Input: - battery life is solid , right around what is claimed - probably 7 to 10 hours depending on variables such as screen brightness and how demanding you ' re being with it .
+Output: [('battery life', 'BATTERY QUALITY', 'solid', 'Positive')]
+
+Input: - touchscreen is responsive enough for gaming .
+Output: [('touchscreen', 'DISPLAY DESIGN_FEATURES', 'responsive', 'Positive')]
+
+Input: i absolutely imagine chrome apps picking up drastically in quality and quantity now , since it seems like chrome os is really coming into its own this year .
+Output: [('chrome apps', 'SOFTWARE QUALITY', 'NULL', 'Positive')]
+
+Input: - in tablet mode , the screen looks too ‘ tall ' to feel natural ( see the attached picture ) .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'NULL', 'Neural')]
+
+Input: this screen ratio makes it look great in desktop mode .
+Output: [('screen ratio', 'DISPLAY DESIGN_FEATURES', 'great', 'Positive')]
+
+Input: after 3 months of use the unit will no longer charge .
+Output: [('unit', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: if it is indeed a software thing and it ' s fixed , i would highly recommend this device .
+Output: [('device', 'LAPTOP GENERAL', 'recommend', 'Positive')]
+
+Input: second issue is with scaling of the ui .
+Output: [('ui', 'SOFTWARE DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: the screen itself is hd 1080p but most ui elements don ' t look good in this resolution .
+Output: [('ui elements', 'SOFTWARE DESIGN_FEATURES', "' t look good", 'Negative')]
+
+Input: unless the app is specifically designed to access google drive files , the app has no way to read and save files directly to the cloud .
+Output: [('app', 'SOFTWARE DESIGN_FEATURES', 'NULL', 'Negative'), ('NULL', 'SOFTWARE DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: • great battery life .
+Output: [('battery life', 'BATTERY QUALITY', 'great', 'Positive')]
+
+Input: • volume is incredibly low .
+Output: [('NULL', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'low', 'Negative')]
+
+Input: i would like a quick fix but have not found one that would allow me to consider keeping this beautiful asus chromebook .
+Output: [('asus chromebook', 'LAPTOP DESIGN_FEATURES', 'beautiful', 'Positive')]
+
+Input: then i one night i plugged it in and woke up to a dead chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'dead', 'Negative')]
+
+Input: it ' s too heavy to really use as a tablet .
+Output: [('tablet', 'LAPTOP PORTABILITY', 'heavy', 'Negative')]
+
+Input: transfer speeds ( lan to nas ) were miserably slow ( 10 - 30mbps ) .
+Output: [('NULL', 'PORTS OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: it was perfect with no backlight bleed , no shimmery matte texture , no uneven backlight , no dead / stuck pixels .
+Output: [('NULL', 'DISPLAY GENERAL', 'perfect', 'Positive')]
+
+Input: this product was fantastic - - great build quality , screen resolution , keyboard - - until one day it stopped turning on .
+Output: [('product', 'LAPTOP GENERAL', 'fantastic', 'Positive'), ('build quality', 'LAPTOP QUALITY', 'great', 'Positive'), ('screen resolution', 'DISPLAY GENERAL', 'great', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', 'great', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i ' ve been repairing products for years and it was clear this was a power _ supply issue .
+Output: [('power _ supply issue', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: if this device weren ' t nearly $ 500 i might expect it to only last a year , but at this price point it ' s unacceptable .
+Output: [('device', 'LAPTOP QUALITY', 'unacceptable', 'Negative')]
+
+Input: some of the things i wanted to do with this notebook were limited by the os .
+Output: [('os', 'OS GENERAL', 'NULL', 'Negative')]
+
+Input: the laptop was great , lightweight , booted fast , simple to use .
+Output: [('laptop', 'LAPTOP GENERAL', 'great', 'Positive'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive'), ('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('laptop', 'LAPTOP USABILITY', 'simple', 'Positive')]
+
+Input: even just this last month it still rates ( on several tech sites ) as one of the best overall chromebook lines to get .
+Output: [('chromebook', 'LAPTOP GENERAL', 'best', 'Positive')]
+
+Input: the asus customer service people are rude and have no answers .
+Output: [('asus customer service people', 'SUPPORT QUALITY', 'rude', 'Negative')]
+
+Input: things were fine until the unit stopped charging .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fine', 'Positive'), ('NULL', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: this is the problem with companies today .
+Output: [('companies', 'COMPANY GENERAL', 'NULL', 'Negative')]
+
+Input: asus customer service sucks .
+Output: [('asus customer service', 'SUPPORT GENERAL', 'sucks', 'Negative')]
+
+Input: i call customer service , first they argue and say customer damage then to try and placate me they say they have an adp accidental damage and protection plan one time for one year .
+Output: [('customer service', 'SUPPORT OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it is a beautiful , well built laptop .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'beautiful', 'Positive'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'well', 'Positive')]
+
+Input: that ' s nutty for an expensive premium product .
+Output: [('product', 'LAPTOP OPERATION_PERFORMANCE', 'nutty', 'Negative'), ('product', 'LAPTOP PRICE', 'expensive', 'Negative')]
+
+Input: asus what the heck were you thinking when you designed this product ?
+Output: [('asus', 'COMPANY GENERAL', 'NULL', 'Negative')]
+
+Input: i seriously love the product but i may have to return it .
+Output: [('product', 'LAPTOP GENERAL', 'love', 'Positive'), ('product', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: now i only leave it charging until it ' s full but the battery time is still decreasing .
+Output: [('battery', 'BATTERY QUALITY', 'NULL', 'Negative')]
+
+Input: very impressed with my first chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'impressed', 'Positive')]
+
+Input: i don ' t use it as much in tablet mode as i thought as it is a little heavy when in that configuration .
+Output: [('tablet mode', 'LAPTOP PORTABILITY', 'heavy', 'Negative')]
+
+Input: i had high hopes for this tablet / computer based on customer reviews .
+Output: [('tablet / computer', 'LAPTOP GENERAL', 'high', 'Positive')]
+
+Input: google docs work fine .
+Output: [('google docs', 'SOFTWARE OPERATION_PERFORMANCE', 'fine', 'Positive')]
+
+Input: a chromebook does most of what i need , except gaiming .
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: second , and most annoying , it would not identify my printer in cloud print .
+Output: [('NULL', 'PORTS OPERATION_PERFORMANCE', 'annoying', 'Negative')]
+
+Input: so , guess i ' m screwed , because now after 6 months my tpm is no longer working and the whole computer is useless .
+Output: [('tpm', 'HARD_DISC OPERATION_PERFORMANCE', 'NULL', 'Negative'), ('computer', 'LAPTOP OPERATION_PERFORMANCE', 'useless', 'Negative')]
+
+Input: product is sturdy , lightweight , fast , and the battery runtime was as advertised !
+Output: [('product', 'LAPTOP DESIGN_FEATURES', 'sturdy', 'Positive'), ('product', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive'), ('product', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('battery runtime', 'BATTERY QUALITY', 'NULL', 'Positive')]
+
+Input: i had to buy a mouse because the touchpad is very sticky .
+Output: [('touchpad', 'KEYBOARD DESIGN_FEATURES', 'sticky', 'Negative')]
+
+Input: not at all pleasant to use also , the screen quality is just so - so .
+Output: [('NULL', 'LAPTOP GENERAL', 'not at all pleasant', 'Negative'), ('screen quality', 'DISPLAY QUALITY', 'so - so', 'Neural')]
+
+Input: and not buy any asus product again
+Output: [('asus product', 'COMPANY GENERAL', 'NULL', 'Negative')]
+
+Input: the third one is ok but has a dead pixel .
+Output: [('NULL', 'LAPTOP GENERAL', 'ok', 'Neural')]
+
+Input: i ' ve contacted amazon and asus and no response .
+Output: [('amazon', 'SUPPORT GENERAL', 'NULL', 'Negative'), ('asus', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: this piece of crap won ' t hold a wifi signal or has a really weak signal .
+Output: [('crap', 'LAPTOP CONNECTIVITY', 'NULL', 'Negative')]
+
+Input: several of my chrome extensions perform poorly and have to be disabled altogether which degrades my work production experience .
+Output: [('chrome extensions', 'SOFTWARE OPERATION_PERFORMANCE', 'poorly', 'Negative')]
+
+Input: however , 1 ) the speakers on this thing are horrible .
+Output: [('speakers', 'MULTIMEDIA_DEVICES GENERAL', 'horrible', 'Negative')]
+
+Input: battery life is not good .
+Output: [('battery life', 'BATTERY GENERAL', 'not good', 'Negative')]
+
+Input: but screen is very weird .
+Output: [('screen', 'DISPLAY GENERAL', 'weird', 'Negative')]
+
+Input: the intel m3 processor is amazing , this thing can do a ton of multi - tasking and the google play store is nice to have , the android apps variants trump the chromebook pre - loaded apps .
+Output: [('intel m3 processor', 'CPU OPERATION_PERFORMANCE', 'amazing', 'Positive'), ('google play store', 'SOFTWARE GENERAL', 'nice', 'Positive'), ('android apps', 'SOFTWARE OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: a great chromebook , but stopped charging in 3 months .
+Output: [('chromebook', 'LAPTOP GENERAL', 'great', 'Positive'), ('chromebook', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i was really excited to purchase this product because it was more affordable .
+Output: [('product', 'LAPTOP GENERAL', 'excited', 'Positive'), ('product', 'LAPTOP PRICE', 'affordable', 'Positive')]
+
+Input: chromebooks are cool , but they dont last at all .
+Output: [('chromebooks', 'LAPTOP DESIGN_FEATURES', 'cool', 'Positive'), ('chromebooks', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: hey this machine is extremely useable and functionable .
+Output: [('machine', 'LAPTOP USABILITY', 'useable', 'Positive'), ('machine', 'LAPTOP OPERATION_PERFORMANCE', 'functionable', 'Positive')]
+
+Input: battery no longer charging .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: furthermore , the file system is extremely complicated to use .
+Output: [('file system', 'OS USABILITY', 'complicated', 'Negative')]
+
+Input: the display panel on the machine i received is warped .
+Output: [('display panel on', 'DISPLAY QUALITY', 'warped', 'Negative')]
+
+Input: half the time it doesn ' t want to turn on and just flashes .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the machine looks great from the hardware point , but the whole concept of chrome os and cloud applications sucks .
+Output: [('machine', 'LAPTOP GENERAL', 'great', 'Positive'), ('hardware', 'HARDWARE DESIGN_FEATURES', 'great', 'Positive'), ('chrome os', 'OS GENERAL', 'sucks', 'Negative'), ('cloud applications', 'SOFTWARE GENERAL', 'sucks', 'Negative')]
+
+Input: in the middle of using , it rebooted , then went into an endless boot loop , so i tried to reset it to factory default , now it says chrome os is missing or damaged .
+Output: [('chrome os', 'OS OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the screen hinge feels weak .
+Output: [('screen hinge', 'HARDWARE DESIGN_FEATURES', 'weak', 'Negative')]
+
+Input: screen is average by 2017 standards .
+Output: [('screen', 'DISPLAY QUALITY', 'average', 'Neural')]
+
+Input: the chromebook is brilliant overall .
+Output: [('chromebook', 'LAPTOP GENERAL', 'brilliant', 'Positive')]
+
+Input: google provides zeros customer support related to the os .
+Output: [('customer support', 'SUPPORT GENERAL', 'NULL', 'Negative'), ('google', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: horrible product .
+Output: [('product', 'LAPTOP GENERAL', 'horrible', 'Negative')]
+
+Input: tech support is no help unless you are willing to part with your computer for months without guarantee of return .
+Output: [('tech support', 'SUPPORT GENERAL', 'no help', 'Negative')]
+
+Input: i am having a very difficult time with this chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'difficult', 'Negative')]
+
+Input: it freezes constantly and needs to be shut off to start again .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the microphone does not work with regular speaker .
+Output: [('microphone', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'NULL', 'Negative'), ('speaker', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the tablet mode is horribly integrated with the os and applications .
+Output: [('tablet mode', 'LAPTOP GENERAL', 'horribly', 'Negative'), ('os', 'OS GENERAL', 'horribly', 'Negative'), ('applications', 'SOFTWARE GENERAL', 'horribly', 'Negative')]
+
+Input: i tried returning the second one bu it does n ' t give me the option to return it .
+Output: [('NULL', 'SUPPORT GENERAL', 'NULL', 'Negative')]
+
+Input: this is nothing more than an okay laptop to get you through basic work activities .
+Output: [('laptop', 'LAPTOP GENERAL', 'okay', 'Positive')]
+
+Input: overall it ' s one of the nicest chrombooks out there .
+Output: [('chrombooks', 'LAPTOP GENERAL', 'nicest', 'Positive')]
+
+Input: however , mine came with an annoying trackpad .
+Output: [('trackpad', 'KEYBOARD GENERAL', 'annoying', 'Negative')]
+
+Input: the top metal monitor casing seems to be soft and bendable .
+Output: [('top metal monitor casing', 'HARDWARE DESIGN_FEATURES', 'soft', 'Negative'), ('top metal monitor casing', 'HARDWARE DESIGN_FEATURES', 'bendable', 'Negative')]
+
+Input: mine arrived with the metal screen casing slightly bent , i can easily bend it back , not sure about the durability of this thing in the long term .
+Output: [('metal screen casing', 'DISPLAY QUALITY', 'bent', 'Negative')]
+
+Input: however , shortly after i received it , a buzzing sound started coming out of the right side usb port .
+Output: [('usb port', 'PORTS QUALITY', 'NULL', 'Negative')]
+
+Input: so chromebook with some manufacturing issues + bad customer service
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Negative'), ('customer service', 'SUPPORT GENERAL', 'bad', 'Negative')]
+
+Input: they 1080 screen makes the fonts to small for this size screen .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: i find the chromium os to be very limiting and would not recommend it over a cheap windows pc .
+Output: [('chromium os', 'OS GENERAL', 'limiting', 'Negative'), ('windows pc', 'LAPTOP PRICE', 'not recommend', 'Negative'), ('windows pc', 'LAPTOP PRICE', 'cheap', 'Negative')]
+
+Input: the keyboard is fantastic , but it ' s just a keyboard .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'fantastic', 'Positive')]
+
+Input: the touchpad is also some strange off color plastic .
+Output: [('touchpad', 'KEYBOARD DESIGN_FEATURES', 'strange', 'Negative')]
+
+Input: 1 - faulty trackpad resulting in jerky erratic cursor movement relative to the smooth movement of your finger .
+Output: [('trackpad', 'KEYBOARD OPERATION_PERFORMANCE', 'faulty', 'Negative'), ('trackpad', 'KEYBOARD OPERATION_PERFORMANCE', 'jerky', 'Negative'), ('trackpad', 'KEYBOARD OPERATION_PERFORMANCE', 'erratic', 'Negative')]
+
+Input: i then noticed a dead pixel on the screen .
+Output: [('screen', 'DISPLAY QUALITY', 'NULL', 'Negative')]
+
+Input: however , if you want a really speedy chromebook , it ' s great .
+Output: [('chromebook', 'LAPTOP OPERATION_PERFORMANCE', 'speedy', 'Positive'), ('chromebook', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: the first unit i received shortly died after a few hours of usage .
+Output: [('unit', 'LAPTOP QUALITY', 'died', 'Negative')]
+
+Input: i like the addition of the cooler boost button , but most of the time i don ' t have to use it because i have a thermaltake auto laptop cooling pad that monitors the bottom surface of my laptop .
+Output: [('thermaltake auto laptop cooling pad', 'FANS&COOLING GENERAL', 'NULL', 'Neural')]
+
+Input: trackpad is ok .
+Output: [('trackpad', 'KEYBOARD GENERAL', 'ok', 'Neural')]
+
+Input: wireless card is finicky with both units i had .
+Output: [('wireless card', 'HARDWARE DESIGN_FEATURES', 'finicky', 'Negative')]
+
+Input: my laptop seems to lose its internet connection at random times .
+Output: [('laptop', 'LAPTOP CONNECTIVITY', 'NULL', 'Negative')]
+
+Input: after being on the phone with technical support and windows support for a combined 10 hours , i am told that the hardware is defective and must be replaced .
+Output: [('hardware', 'HARDWARE QUALITY', 'defective', 'Negative')]
+
+Input: run like heck from this machine .
+Output: [('machine', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it will break , even if it works at first .
+Output: [('NULL', 'LAPTOP QUALITY', 'break', 'Negative')]
+
+Input: this laptop isn ' t even 30 days old yet .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: literally just closing it and opening it up later was a 50 / 50 proposition if it would wake up , or the display would crash , or the disk would crash , or some driver would fail - on a brand new laptop .
+Output: [('display', 'DISPLAY QUALITY', 'crash', 'Negative'), ('disk', 'HARD_DISC QUALITY', 'NULL', 'Negative'), ('some driver', 'SOFTWARE QUALITY', 'fail', 'Negative'), ('laptop', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: hook up the cat5 and the machine is screaming at high speed and exactly what i was hoping for .
+Output: [('machine', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: by the time i was returning it , the system was in such poor shape from the msi .
+Output: [('system', 'OS OPERATION_PERFORMANCE', 'poor', 'Negative')]
+
+Input: i believe if you happen to uninstall / install the drivers in exactly the correct order and / or do a clean win 10 installation yourself , this laptop should perform well for the price .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: the sound is really terrible and tinny .
+Output: [('sound', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'terrible', 'Negative'), ('sound', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'tinny', 'Negative')]
+
+Input: it ' s fast .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: excellent product
+Output: [('product', 'LAPTOP GENERAL', 'excellent', 'Positive')]
+
+Input: i ' ve always liked msi for their performance and fairly decent price .
+Output: [('msi', 'LAPTOP OPERATION_PERFORMANCE', 'liked', 'Positive'), ('msi', 'LAPTOP PRICE', 'decent', 'Positive')]
+
+Input: it was actually more like 1h45m and this was also after optimizing the battery .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: so , four days after buying this laptop , it stopped booting .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: for the four days i used it , it worked pretty good .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: this laptop is not worth the time and definitely not the money .
+Output: [('laptop', 'LAPTOP GENERAL', 'not worth', 'Negative')]
+
+Input: we call tech support together and the guy who answers is just so not interested in helping .
+Output: [('tech support', 'SUPPORT OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i am extremely disappointed with this laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'disappointed', 'Negative')]
+
+Input: update : this is by far and away the worst computer i have ever purchased .
+Output: [('computer', 'LAPTOP GENERAL', 'worst', 'Negative')]
+
+Input: got the second laptop , died within a month and same thing .
+Output: [('second laptop', 'LAPTOP GENERAL', 'died', 'Negative')]
+
+Input: this kept plaguing the laptop as more problems kept piling up including various bsod errors mostly involving the hardware .
+Output: [('hardware', 'HARDWARE QUALITY', 'NULL', 'Negative'), ('laptop', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: poor design and terrible tech support .
+Output: [('design', 'LAPTOP DESIGN_FEATURES', 'poor', 'Negative'), ('tech support', 'SUPPORT GENERAL', 'terrible', 'Negative')]
+
+Input: this computer is amazing !
+Output: [('computer', 'LAPTOP GENERAL', 'amazing', 'Positive')]
+
+Input: quite like this laptop so far , only writing this review so early from owning it to receive that nice msi headset .
+Output: [('laptop', 'LAPTOP GENERAL', 'like', 'Positive'), ('msi headset', 'MULTIMEDIA_DEVICES GENERAL', 'nice', 'Positive')]
+
+Input: not too happy with msi , likely to return this laptop .
+Output: [('msi', 'COMPANY GENERAL', 'not too happy', 'Negative'), ('laptop', 'LAPTOP GENERAL', 'not too happy', 'Negative')]
+
+Input: this laptop was great starting out of the box .
+Output: [('laptop', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: their support page is very buggy , and the support people are unhelpful .
+Output: [('support page', 'SUPPORT GENERAL', 'buggy', 'Negative'), ('support people', 'SUPPORT GENERAL', 'unhelpful', 'Negative')]
+
+Input: sooooo i would avoid this and i ' m pretty much avoiding the optane drive which may have been part of the issue .
+Output: [('optane drive', 'GRAPHICS GENERAL', 'NULL', 'Negative')]
+
+Input: after this issue i finally decided to return my product .
+Output: [('product', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: good luck this customer tech support and msi has absolutely no idea how to help you .
+Output: [('customer tech support', 'SUPPORT GENERAL', 'good luck', 'Negative'), ('msi', 'SUPPORT GENERAL', 'good luck', 'Negative')]
+
+Input: i ' ve had to do a factory reset on this piece of garbage 4 times and i ' ve only owned it for 4 months .
+Output: [('NULL', 'LAPTOP GENERAL', 'garbage', 'Negative')]
+
+Input: you can feel the plastic bending if you pick up the laptop with one hand .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: i really loved this laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'loved', 'Positive')]
+
+Input: i will never own another msi product .
+Output: [('msi product', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: now i feel bad buying this for my child , as this laptop seem to have a solid rating elsewhere .
+Output: [('laptop', 'LAPTOP GENERAL', 'bad', 'Negative'), ('laptop', 'LAPTOP GENERAL', 'solid', 'Negative')]
+
+Input: so i ' m stuck with a 3 month old laptop that does n ' t work .
+Output: [('laptop', 'LAPTOP GENERAL', 'stuck', 'Negative')]
+
+Input: eventually got to the point that even when i reinstalled windows it was so slow that there are clearly serious build defects / instabilities on this product .
+Output: [('product', 'LAPTOP QUALITY', 'slow', 'Negative')]
+
+Input: when it is functioning it works great .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Negative')]
+
+Input: finding out you bought garbage for the steep price of $ 700 + .
+Output: [('NULL', 'LAPTOP GENERAL', 'garbage', 'Negative')]
+
+Input: overall a decent laptop if not for these problems , also , the laptop has minor screen freezes even while playing low graphical games like league of legends .
+Output: [('laptop', 'LAPTOP GENERAL', 'decent', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: laptop malfunctioned and stopped working after only 3 months .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it does have a nice screen that is very bright , decent viewing angle and ok for contrast .
+Output: [('screen', 'DISPLAY GENERAL', 'nice', 'Positive'), ('screen', 'DISPLAY GENERAL', 'bright', 'Positive'), ('screen', 'DISPLAY GENERAL', 'decent', 'Positive'), ('screen', 'DISPLAY GENERAL', 'ok', 'Positive')]
+
+Input: the keyboard is very nice and very responsive .
+Output: [('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'nice', 'Positive'), ('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'responsive', 'Positive')]
+
+Input: i love the fast bootup time with the optane memory , a nice alternative to a very expensive ssd .
+Output: [('bootup', 'OS OPERATION_PERFORMANCE', 'love', 'Positive'), ('optane memory', 'MEMORY OPERATION_PERFORMANCE', 'love', 'Positive')]
+
+Input: the charge doesn ' t last like the five hours it stated but instead last three hours .
+Output: [('charge', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: had it for a month and it ' s riddled with problems .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: as others have said , the only downside is the slow 5400 rpm 1 tb hard drive .
+Output: [('hard drive', 'HARD_DISC OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: + very good ips matte fhd panel , zero reflections , almost zero light bleed , average brightness .
+Output: [('ips matte fhd panel', 'DISPLAY DESIGN_FEATURES', 'good', 'Positive')]
+
+Input: used as bought , it is an ok laptop , but not great ( probably a 3 star value ) .
+Output: [('laptop', 'LAPTOP GENERAL', 'ok', 'Neural'), ('laptop', 'LAPTOP GENERAL', 'not great', 'Neural')]
+
+Input: - no ethernet port ( not that i ' ve used or needed one that i can recall )
+Output: [('ethernet port', 'PORTS DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: no backlit keyboard .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: it has plenty of power for most tasks .
+Output: [('power', 'POWER_SUPPLY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: the only weak point of the laptop is the hard drive it come with , but luckily this laptop is extendable - 2 ram slots and one m .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'luckily', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'extendable', 'Positive')]
+
+Input: i paid $ 500 for a 15 ` ` notebook with 8gb ram , latest i5 - 8250u cpu with reasonable weight and its quite extendable , i am happy for this deal .
+Output: [('weight', 'LAPTOP DESIGN_FEATURES', 'reasonable', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'extendable', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'happy', 'Positive')]
+
+Input: also , i ' m not a fan of the delete and power button being next to each other , now i see what the other people are complaining about accidentally shutting it off .
+Output: [('delete and power button', 'KEYBOARD DESIGN_FEATURES', 'complaining', 'Negative')]
+
+Input: haven ' t had any issues yet so pretty glad i chose this .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'glad', 'Positive')]
+
+Input: very nice looking laptop for the money .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'nice looking', 'Positive'), ('laptop', 'LAPTOP PRICE', 'NULL', 'Positive')]
+
+Input: features windows 10 , sharp display , and card slot for m .
+Output: [('windows 10', 'OS GENERAL', 'NULL', 'Positive'), ('display', 'DISPLAY OPERATION_PERFORMANCE', 'sharp', 'Positive'), ('card slot', 'PORTS GENERAL', 'NULL', 'Positive')]
+
+Input: great quality computer .
+Output: [('computer', 'LAPTOP QUALITY', 'great', 'Positive')]
+
+Input: like the flip , this has good build quality .
+Output: [('flip', 'LAPTOP GENERAL', 'like', 'Positive'), ('build quality', 'LAPTOP QUALITY', 'good', 'Positive')]
+
+Input: so far it has been able to handle everything i ' ve thrown at it .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: all in all , pretty good stuff .
+Output: [('stuff', 'LAPTOP GENERAL', 'good', 'Positive')]
+
+Input: 2 and this laptop is an epic powerhouse for under $ 700 .
+Output: [('laptop', 'LAPTOP GENERAL', 'epic', 'Positive')]
+
+Input: very good laptop if you want something lightweight for everyday browsing .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'good', 'Positive'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive')]
+
+Input: excellent hardware , however i ran into some nasty trouble after updating windows 10 .
+Output: [('hardware', 'HARDWARE GENERAL', 'excellent', 'Positive'), ('windows 10', 'OS GENERAL', 'nasty', 'Positive')]
+
+Input: so , shortly after buying it i had to format it .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: and just now , the computer says it is plugged in but not charging .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: the fingerprint reader works most of the time .
+Output: [('fingerprint reader', 'HARDWARE OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: the sound is fine for me but not as good as external speakers .
+Output: [('sound', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'fine', 'Positive'), ('external speakers', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: not that this machine boots up slow .
+Output: [('machine', 'LAPTOP OPERATION_PERFORMANCE', 'slow', 'Negative'), ('boots up', 'LAPTOP OPERATION_PERFORMANCE', 'slow', 'Negative')]
+
+Input: great value for a laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: love the 15 inch screen in the body of a 14 inch body .
+Output: [('15 inch screen', 'DISPLAY GENERAL', 'love', 'Positive')]
+
+Input: cheaply made plastic but performance is well worth the trade for a $ 500 laptop .
+Output: [('NULL', 'LAPTOP QUALITY', 'cheaply made', 'Negative'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'worth', 'Positive')]
+
+Input: touchpad works well .
+Output: [('touchpad', 'KEYBOARD DESIGN_FEATURES', 'well', 'Positive')]
+
+Input: the speakers are mediocre and don ' t put out too much volume and are sensitive to position .
+Output: [('speakers', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'mediocre', 'Neural')]
+
+Input: i do like the screen on this , images are clean and crisp , enjoying the 4 gigs of ram which allow me to have a few more tab open .
+Output: [('screen', 'DISPLAY GENERAL', 'like', 'Positive'), ('screen', 'DISPLAY GENERAL', 'clean', 'Positive'), ('screen', 'DISPLAY GENERAL', 'crisp', 'Positive'), ('ram', 'MEMORY GENERAL', 'enjoying', 'Positive')]
+
+Input: i like how it ' s so simple , without so much clutter and complexity .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'simple', 'Positive')]
+
+Input: i ' m still keeping this as a backup or additional laptop because of its cheap price .
+Output: [('laptop', 'LAPTOP PRICE', 'cheap', 'Positive')]
+
+Input: anyways , i really would of liked to have kept the chromebook as it was the perfect weight , size , and design for my upcoming college semester .
+Output: [('chromebook', 'LAPTOP DESIGN_FEATURES', 'perfect', 'Positive')]
+
+Input: laptop would never power on , even after being charged for 24 hours .
+Output: [('laptop', 'POWER_SUPPLY GENERAL', 'NULL', 'Negative')]
+
+Input: i want to love this laptop because it is so lightweight and sleek .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'love', 'Positive'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'lightweight', 'Positive'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'sleek', 'Positive')]
+
+Input: it ' s decent .
+Output: [('NULL', 'LAPTOP GENERAL', 'decent', 'Positive')]
+
+Input: ssd hardware issue
+Output: [('ssd', 'HARD_DISC QUALITY', 'NULL', 'Negative')]
+
+Input: note : support for amazon is making it good and immediately sent me the return label , bought through third party but i will get my money back , thank god for amazon customer service
+Output: [('support for amazon', 'SUPPORT QUALITY', 'good', 'Positive'), ('amazon customer service', 'SUPPORT QUALITY', 'good', 'Positive')]
+
+Input: the return procedure is so elaborate that i may decide to just write this purchase up as one big mistake .
+Output: [('return procedure', 'SUPPORT GENERAL', 'elaborate', 'Negative')]
+
+Input: daughter opened it for christmas and it doesn ' t stay on .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: they keyboard felt responsive and was a good size .
+Output: [('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'responsive', 'Positive'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'good', 'Positive')]
+
+Input: i am very close to just returning it and never buying another acer product ever again .
+Output: [('acer product', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: i will give them props for the build quality .
+Output: [('build quality', 'LAPTOP QUALITY', 'NULL', 'Negative')]
+
+Input: combine these items together and this item became very frustrating .
+Output: [('NULL', 'LAPTOP GENERAL', 'frustrating', 'Negative')]
+
+Input: - exceptional keyboard and touchpad feel
+Output: [('keyboard', 'KEYBOARD GENERAL', 'exceptional', 'Positive'), ('touchpad', 'HARDWARE OPERATION_PERFORMANCE', 'exceptional', 'Positive')]
+
+Input: - below average screen brightness about 200 nits , average is 250 - 275 .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'below average', 'Negative')]
+
+Input: as you can see from the reviews it worked out fine for most people .
+Output: [('NULL', 'LAPTOP GENERAL', 'fine', 'Positive')]
+
+Input: when i sent it back to acer to repair it they simply claimed it had water damaging and couldn ' t fix it .
+Output: [('acer', 'SUPPORT QUALITY', 'NULL', 'Negative')]
+
+Input: my acer aspire e 15 worked great for a day , and then shut off by itself .
+Output: [('acer aspire', 'LAPTOP GENERAL', 'great', 'Positive'), ('acer aspire', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: by june 2018 , the keyboard stopped working , and i had to do an unplug and reboot .
+Output: [('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: now given that without the issue they are a nice laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'nice', 'Positive')]
+
+Input: good performance for the price and my intention as the support for my family was to have everyone on these with a spare to deal with ones that break down .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'good', 'Positive'), ('NULL', 'LAPTOP PRICE', 'good', 'Positive')]
+
+Input: i purchased this computer because it came highly rated by consumer reports , pc magazine , and other raters .
+Output: [('computer', 'LAPTOP GENERAL', 'highly rated', 'Positive')]
+
+Input: the reason why i ' m giving this laptop a two star is because overall i think the quality of it is good especially for the price .
+Output: [('laptop', 'LAPTOP QUALITY', 'good', 'Positive'), ('laptop', 'LAPTOP PRICE', 'good', 'Positive')]
+
+Input: can not remove the battery .
+Output: [('battery', 'BATTERY DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: i too have the black screen problem .
+Output: [('screen', 'DISPLAY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: computer is fine but the speakers broke after 1 week of use .
+Output: [('computer', 'LAPTOP GENERAL', 'fine', 'Positive'), ('speakers', 'MULTIMEDIA_DEVICES QUALITY', 'NULL', 'Negative')]
+
+Input: the computer is good for the price , but the hdmi port is already broken .
+Output: [('computer', 'LAPTOP PRICE', 'good', 'Positive'), ('hdmi port', 'PORTS OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: won ' t turn on , won ' t charge , have to send it to tx to be repaired .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i want to insist that this is not a game laptop , as many have reviewed it as .
+Output: [('laptop', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: battery life can last me roughly 5 or 6 hours on internet usage alone with multiple tabs .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Neural')]
+
+Input: the speakers on the bottom take a moment to get used to but after that it ' s alright .
+Output: [('speakers', 'MULTIMEDIA_DEVICES GENERAL', 'alright', 'Neural')]
+
+Input: also , i hate the keyboard - it feels really cheap .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'hate', 'Negative'), ('keyboard', 'KEYBOARD GENERAL', 'cheap', 'Negative')]
+
+Input: overall the laptop is cheap and flimsy .
+Output: [('laptop', 'LAPTOP PRICE', 'cheap', 'Positive'), ('laptop', 'LAPTOP QUALITY', 'flimsy', 'Negative')]
+
+Input: mx150 gaphics card is also pretty bad .
+Output: [('mx150 gaphics card', 'GRAPHICS GENERAL', 'bad', 'Negative')]
+
+Input: and i genuinely believed in acer , but first i had a lot of issues setting up the computer and after hours of customer service help the touch pad did n ' t even work .
+Output: [('touch pad', 'KEYBOARD QUALITY', 'NULL', 'Negative')]
+
+Input: i took it to my local computer repair who states it has a bad board .
+Output: [('board', 'MOTHERBOARD GENERAL', 'bad', 'Negative')]
+
+Input: there ' s something wrong with my laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'wrong', 'Negative')]
+
+Input: something is wrong with the power management .
+Output: [('power management', 'BATTERY GENERAL', 'wrong', 'Negative')]
+
+Input: very disappointed in the $ 600 e 15 , as opposed to the no frills , plain old , < $ 200 15 i ' ve had for 2 .
+Output: [('e 15', 'LAPTOP GENERAL', 'disappointed', 'Negative')]
+
+Input: the trackpad stopped working after four weeks of using it .
+Output: [('trackpad', 'HARDWARE OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: there is a flicker in the middle of the screen that is very annoying .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'annoying', 'Negative')]
+
+Input: the computer runs decent but the keypad turns off every time the computer sleeps .
+Output: [('keypad', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: otherwise , so far it is working well .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: i presented my son with a gift of a defective machine .
+Output: [('machine', 'LAPTOP GENERAL', 'defective', 'Negative')]
+
+Input: the computer itself is actually quite fast with the ssd and processor , so my experience there so far has been good .
+Output: [('computer', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('ssd', 'HARD_DISC QUALITY', 'fast', 'Positive'), ('processor', 'CPU QUALITY', 'fast', 'Positive'), ('computer', 'LAPTOP GENERAL', 'good', 'Positive')]
+
+Input: keyboard and track pad shoved way left .
+Output: [('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'NULL', 'Negative'), ('track pad', 'KEYBOARD OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: keyboard rattles loudly when typing on left side .
+Output: [('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'loudly', 'Negative')]
+
+Input: will not connect to wifi , amd screen flashes when adjusting while on .
+Output: [('wifi', 'PORTS CONNECTIVITY', 'NULL', 'Negative'), ('screen', 'DISPLAY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: but the speakers are absolutely horrible !
+Output: [('speakers', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'horrible', 'Negative')]
+
+Input: latest 8th generation core i5 cpu
+Output: [('8th generation core i5 cpu', 'CPU GENERAL', 'NULL', 'Positive')]
+
+Input: keyboard has flex
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Neural')]
+
+Input: no backlight at keyboard
+Output: [('backlight', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: key presses are too stiff to press .
+Output: [('key', 'KEYBOARD USABILITY', 'stiff', 'Negative')]
+
+Input: hdd makes this laptop very slow .
+Output: [('hdd', 'HARD_DISC DESIGN_FEATURES', 'slow', 'Negative'), ('laptop', 'LAPTOP DESIGN_FEATURES', 'slow', 'Negative')]
+
+Input: but asus engineers designed the case and laptop not to be opened by users .
+Output: [('case', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative'), ('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: there is no backlight and keys are too stiff .
+Output: [('backlight', 'KEYBOARD DESIGN_FEATURES', 'stiff', 'Negative'), ('keys', 'KEYBOARD DESIGN_FEATURES', 'stiff', 'Negative')]
+
+Input: i believe it is not healthy to use this keyboard for a long time .
+Output: [('keyboard', 'KEYBOARD MISCELLANEOUS', 'not healthy', 'Negative')]
+
+Input: linux is mostly compatible with this laptop except fingerprint reader .
+Output: [('fingerprint reader', 'HARDWARE GENERAL', 'NULL', 'Negative')]
+
+Input: video converting process with same video file took only 25 minutes with asus vivobook f510ua .
+Output: [('asus vivobook f510ua', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: 3 ) you can hear the screen creak .
+Output: [('screen', 'DISPLAY QUALITY', 'creak', 'Negative')]
+
+Input: it doesn ' t support a hardwire connection .
+Output: [('NULL', 'LAPTOP CONNECTIVITY', 'NULL', 'Neural')]
+
+Input: i have installed no software on it yet it updates something every day and wants to reboot .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: it just locked up again .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: did i mention it sounds like a lawn mower ?
+Output: [('NULL', 'HARD_DISC OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: i will say i do enjoy the screen quality , the wifi is fast on this laptop .
+Output: [('wifi', 'PORTS OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: in all , stay away .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: - keyboard is comfortable to use
+Output: [('keyboard', 'KEYBOARD USABILITY', 'comfortable', 'Positive')]
+
+Input: - finger doesn ' t side smoothly along track pad .
+Output: [('track pad', 'HARDWARE USABILITY', 'NULL', 'Negative')]
+
+Input: horrible laptop !
+Output: [('laptop', 'LAPTOP GENERAL', 'horrible', 'Negative')]
+
+Input: i had to spend over $ 160 to return it .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: i will never buy an other asus product .
+Output: [('asus product', 'COMPANY GENERAL', 'NULL', 'Negative')]
+
+Input: it just crashed , dead .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'crashed', 'Negative'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'dead', 'Negative')]
+
+Input: - the screen looks pretty good , except when viewing anything dark .
+Output: [('screen', 'DISPLAY GENERAL', 'good', 'Positive')]
+
+Input: - the keyboard is awful .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'awful', 'Negative')]
+
+Input: when i asked asus for a replacement key , they said i ' d have to ship it back to them , which would have left me without a computer for 2 weeks .
+Output: [('asus', 'SUPPORT GENERAL', 'NULL', 'Neural')]
+
+Input: don ' t buy it .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: after my 3rd boot up it ' s damaged .
+Output: [('boot up', 'OS OPERATION_PERFORMANCE', 'damaged', 'Negative')]
+
+Input: after a month of use , disk ( c : ) runs at 100 % all the time .
+Output: [('NULL', 'HARD_DISC OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: everything else is very good and i am satisfied
+Output: [('NULL', 'LAPTOP GENERAL', 'good', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'satisfied', 'Positive')]
+
+Input: do not buy this computer if your plan is to multitask , play an occasional game and / or play music while searching the web .
+Output: [('computer', 'LAPTOP GENERAL', 'NULL', 'Negative')]
+
+Input: this is first impression , 1st day using it
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: overall good laptop .
+Output: [('laptop', 'LAPTOP GENERAL', 'good', 'Positive')]
+
+Input: the fingerprint scanner is half jotted and barely works .
+Output: [('fingerprint scanner', 'HARDWARE OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: one day of use and the screen turns itself off and logs you out whenever it feels to do so .
+Output: [('screen', 'DISPLAY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: finger print scanner not working whatsoever .
+Output: [('finger print scanner', 'HARDWARE QUALITY', 'NULL', 'Negative')]
+
+Input: with all the great spec hardware in this laptop , why would you put a 5400rpm hard drive in this unit ?
+Output: [('spec', 'HARDWARE GENERAL', 'great', 'Positive'), ('hardware', 'HARDWARE GENERAL', 'great', 'Positive'), ('hard drive', 'HARD_DISC GENERAL', 'NULL', 'Negative')]
+
+Input: poor touch pad , it get stuck .
+Output: [('touch pad', 'HARDWARE GENERAL', 'poor', 'Negative'), ('touch pad', 'HARDWARE GENERAL', 'stuck', 'Negative')]
+
+Input: - the physical case is solid and of a production quality you ' d expect in machine 3 - 5x the price of this machine
+Output: [('production quality', 'LAPTOP QUALITY', 'NULL', 'Positive')]
+
+Input: - user interfaces that are tight , responsive
+Output: [('user interfaces', 'OS OPERATION_PERFORMANCE', 'tight', 'Positive'), ('user interfaces', 'OS OPERATION_PERFORMANCE', 'responsive', 'Positive')]
+
+Input: all and all , it ' s a light weight , but very robust development stack , that also has the added convenience of cloud9 ' s collaboration features wherein multiple developers can be writing code in even the same file simultaneously .
+Output: [('NULL', 'OS OPERATION_PERFORMANCE', 'robust', 'Positive'), ('NULL', 'OS DESIGN_FEATURES', 'light', 'Positive')]
+
+Input: thus far , i ' ve loaded a number of games , my password vault , several productivity apps , skype , spotify and some network scanning android apps and they ' ve all worked very well .
+Output: [('NULL', 'SOFTWARE OPERATION_PERFORMANCE', 'well', 'Positive'), ('android apps', 'SOFTWARE OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: mouse and trackpad settings are very minimalist , there ' s no way to modify short - cut keys , and the power management options are pretty minimal , too .
+Output: [('mouse', 'SOFTWARE DESIGN_FEATURES', 'minimalist', 'Negative'), ('trackpad settings', 'SOFTWARE DESIGN_FEATURES', 'minimalist', 'Negative'), ('power management options', 'SOFTWARE DESIGN_FEATURES', 'minimalist', 'Negative')]
+
+Input: and the google play store is chock - full of great apps and games .
+Output: [('google play store', 'SOFTWARE DESIGN_FEATURES', 'great', 'Positive'), ('apps', 'SOFTWARE DESIGN_FEATURES', 'great', 'Positive')]
+
+Input: it ' s really seamless and smooth to move back and forth and makes experimenting with different linux configs and environments effortless .
+Output: [('linux configs', 'OS OPERATION_PERFORMANCE', 'seamless', 'Positive'), ('linux configs', 'OS OPERATION_PERFORMANCE', 'smooth', 'Positive'), ('linux configs', 'OS OPERATION_PERFORMANCE', 'effortless', 'Positive'), ('environments', 'OS OPERATION_PERFORMANCE', 'seamless', 'Positive'), ('environments', 'OS OPERATION_PERFORMANCE', 'smooth', 'Positive'), ('environments', 'OS OPERATION_PERFORMANCE', 'effortless', 'Positive')]
+
+Input: you won ' t be disappointed with this great little machine how ever you end up using it , and that versatility is what really makes this machine such a fun and valuable computer .
+Output: [('machine', 'LAPTOP GENERAL', 'great', 'Positive'), ('machine', 'LAPTOP GENERAL', "' t be disappointed", 'Positive'), ('NULL', 'LAPTOP GENERAL', 'fun', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'valuable', 'Positive'), ('computer', 'LAPTOP GENERAL', 'fun', 'Positive'), ('computer', 'LAPTOP GENERAL', 'valuable', 'Positive')]
+
+Input: for ~ $ 15 you can get a nice , fitted anti - glare screen protector that reduces the fingerprint / glare problems and gives you some piece of mind about protecting that gorgeous screen .
+Output: [('screen protector', 'DISPLAY OPERATION_PERFORMANCE', 'nice', 'Positive'), ('screen protector', 'DISPLAY OPERATION_PERFORMANCE', 'fitted', 'Positive'), ('NULL', 'DISPLAY GENERAL', 'gorgeous', 'Positive')]
+
+Input: i saw this c302 was announced at ces and was immediately drawn to it since it has the intel core m3 processor .
+Output: [('c302', 'LAPTOP GENERAL', 'drawn to', 'Positive'), ('intel core m3 processor', 'CPU GENERAL', 'drawn to', 'Positive')]
+
+Input: apps like microsoft word , excel , etc run wonderfully .
+Output: [('apps', 'SOFTWARE OPERATION_PERFORMANCE', 'wonderfully', 'Positive'), ('microsoft word', 'SOFTWARE OPERATION_PERFORMANCE', 'wonderfully', 'Positive'), ('excel', 'SOFTWARE OPERATION_PERFORMANCE', 'wonderfully', 'Positive')]
+
+Input: for instance , the android youtube app doesn ' t work well at all because it ' s very inconvenient to get videos into full - screen mode .
+Output: [('android youtube app', 'SOFTWARE OPERATION_PERFORMANCE', "' t work well", 'Negative'), ('android youtube app', 'SOFTWARE OPERATION_PERFORMANCE', 'inconvenient', 'Negative')]
+
+Input: it seems pretty fast .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: so i ' m very happy and relieved to see it working excellently on the c302 .
+Output: [('c302', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive'), ('c302', 'LAPTOP OPERATION_PERFORMANCE', 'excellently', 'Positive')]
+
+Input: this is easily the best overall chromebook out there right now ( under $ 500 ) .
+Output: [('chromebook', 'LAPTOP GENERAL', 'best', 'Positive')]
+
+Input: * battery * - battery life is great .
+Output: [('battery', 'BATTERY GENERAL', 'great', 'Positive'), ('battery life', 'BATTERY GENERAL', 'great', 'Positive')]
+
+Input: the backlight works great and i had no problems using it in the dark .
+Output: [('backlight', 'KEYBOARD OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: it ' s a nice smooth surface so no tension when gliding across it .
+Output: [('surface', 'LAPTOP DESIGN_FEATURES', 'nice', 'Positive'), ('surface', 'LAPTOP DESIGN_FEATURES', 'smooth', 'Positive')]
+
+Input: multi - touch input works great .
+Output: [('multi - touch input', 'KEYBOARD OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: * build quality * - i ' m really pleased with the overall quality .
+Output: [('build quality', 'LAPTOP QUALITY', 'pleased', 'Positive'), ('NULL', 'LAPTOP QUALITY', 'pleased', 'Positive')]
+
+Input: it ' s light enough to carry pretty much every where .
+Output: [('NULL', 'LAPTOP PORTABILITY', 'light', 'Positive')]
+
+Input: it starts up , runs without issues .
+Output: [('starts up', 'OS OPERATION_PERFORMANCE', 'NULL', 'Neural')]
+
+Input: even the speakers are way better than i expected from a 2 in 1 at this price point .
+Output: [('speakers', 'MULTIMEDIA_DEVICES GENERAL', 'better', 'Positive')]
+
+Input: this is finally the chromebook i ' ve been waiting for , that is not a $ 1300 pixel .
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: - the screen has great contrast and is glossy and sharp
+Output: [('screen', 'DISPLAY OPERATION_PERFORMANCE', 'great', 'Positive'), ('screen', 'DISPLAY OPERATION_PERFORMANCE', 'glossy', 'Positive'), ('screen', 'DISPLAY OPERATION_PERFORMANCE', 'sharp', 'Positive')]
+
+Input: - this may be a personal preference but i did wish the screen was a tad bit brighter .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'brighter', 'Negative')]
+
+Input: overall great chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'great', 'Positive')]
+
+Input: this is a spectacular chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'spectacular', 'Positive')]
+
+Input: it ' s faster , the screen is much nicer , and it has twice the memory and four times the drive space .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'faster', 'Positive'), ('screen', 'DISPLAY DESIGN_FEATURES', 'nicer', 'Positive'), ('memory', 'MEMORY DESIGN_FEATURES', 'NULL', 'Positive'), ('drive space', 'HARD_DISC DESIGN_FEATURES', 'NULL', 'Positive')]
+
+Input: the core m3 processor allows the c302 to be fanless , as well , adding to the sleek design .
+Output: [('design', 'LAPTOP DESIGN_FEATURES', 'sleek', 'Positive')]
+
+Input: it ' s a real timesaver , honestly .
+Output: [('NULL', 'DISPLAY USABILITY', 'NULL', 'Positive')]
+
+Input: i find the display sharp and touch responsive to be quite excellent .
+Output: [('display', 'DISPLAY DESIGN_FEATURES', 'sharp', 'Positive'), ('touch', 'KEYBOARD OPERATION_PERFORMANCE', 'responsive', 'Positive'), ('touch', 'KEYBOARD OPERATION_PERFORMANCE', 'excellent', 'Positive')]
+
+Input: at the end of the day i think it is worth the extra cost if you are looking for a premium product feel .
+Output: [('NULL', 'LAPTOP GENERAL', 'worth', 'Positive')]
+
+Input: - nice , bright screen ( touchscreen , too ! )
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'nice', 'Positive'), ('screen', 'DISPLAY DESIGN_FEATURES', 'bright', 'Positive'), ('touchscreen', 'DISPLAY DESIGN_FEATURES', 'nice', 'Positive'), ('touchscreen', 'DISPLAY DESIGN_FEATURES', 'bright', 'Positive')]
+
+Input: battery doesn ' t last nearly as long as advertised .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: this is a very cleverly designed and fast machine .
+Output: [('machine', 'LAPTOP DESIGN_FEATURES', 'cleverly', 'Positive'), ('machine', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: operational speed - - likely the fastest laptop i have ever used ( for basic functions ) .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'fastest', 'Positive')]
+
+Input: edit 2 : 8 months in and everything is working great .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: - trackpad isn ' t the best .
+Output: [('trackpad', 'HARDWARE OPERATION_PERFORMANCE', "' t the best", 'Neural')]
+
+Input: - the touch screen isn ' t as accurate as i wish , for cases like tapping tiny things around the edges .
+Output: [('touch screen', 'DISPLAY GENERAL', 'NULL', 'Negative')]
+
+Input: - the screen size is an awkward 16 : 9 and provides a 1920x1080 resolution ( although the default is set to 1536x864 ) .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'awkward', 'Negative')]
+
+Input: for 99 % of the people looking at chromebooks right now for personal use , this asus is probably the best choice in the market .
+Output: [('asus', 'LAPTOP GENERAL', 'best', 'Positive')]
+
+Input: overall , i am extremely impressed with this chromebook and would highly recommend this to others .
+Output: [('chromebook', 'LAPTOP GENERAL', 'impressed', 'Positive'), ('chromebook', 'LAPTOP GENERAL', 'recommend', 'Positive')]
+
+Input: it works well as a tablet .
+Output: [('tablet', 'LAPTOP OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: it works great as a laptop and for the things i do which tend to be web based .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: nevertheless , i did have my own nitpicking issues with it but for the $ 250 price tag it launched with , it was well worth it .
+Output: [('NULL', 'LAPTOP PRICE', 'well worth', 'Positive')]
+
+Input: i found the display to be very vibrant , with excellent pixel density .
+Output: [('display', 'DISPLAY DESIGN_FEATURES', 'vibrant', 'Positive'), ('display', 'DISPLAY DESIGN_FEATURES', 'excellent', 'Positive')]
+
+Input: i like the dispersion of ports and feel it helps with the ergonomics of your daily usage .
+Output: [('ports', 'PORTS USABILITY', 'NULL', 'Positive')]
+
+Input: still , for $ 450 i ' m a huge fan of the screen and the excellent overall build quality .
+Output: [('screen', 'DISPLAY GENERAL', 'NULL', 'Positive'), ('build quality', 'LAPTOP QUALITY', 'excellent', 'Positive')]
+
+Input: and even with all of the new competition hitting the market with higher price points , the c302 still offers the best premium chrome os experience at a respectable price .
+Output: [('c302', 'LAPTOP PRICE', 'respectable', 'Positive'), ('chrome os', 'OS GENERAL', 'best', 'Positive'), ('chrome os', 'OS GENERAL', 'premium', 'Positive')]
+
+Input: the screen is fantastic .
+Output: [('screen', 'DISPLAY GENERAL', 'fantastic', 'Positive')]
+
+Input: the mousepad feels very comfortable to use .
+Output: [('mousepad', 'MOUSE USABILITY', 'comfortable', 'Positive')]
+
+Input: the battery performance is all it ' s cracked up to be .
+Output: [('battery performance', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: the sound is rich and plenty loud enough , but it won ' t replace your music system .
+Output: [('sound', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'rich', 'Negative'), ('sound', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'loud', 'Negative')]
+
+Input: backlit allow even guys with large hands to use this keyboard comfortably in any lighting .
+Output: [('backlit', 'KEYBOARD DESIGN_FEATURES', 'comfortably', 'Positive'), ('keyboard', 'KEYBOARD DESIGN_FEATURES', 'comfortably', 'Positive')]
+
+Input: the trackpad and touchscreen are both excellent .
+Output: [('trackpad', 'KEYBOARD GENERAL', 'excellent', 'Positive'), ('touchscreen', 'DISPLAY GENERAL', 'excellent', 'Positive')]
+
+Input: the speaker sound is ok but not great .
+Output: [('speaker sound', 'MULTIMEDIA_DEVICES GENERAL', 'ok', 'Neural'), ('speaker sound', 'MULTIMEDIA_DEVICES GENERAL', 'not great', 'Neural')]
+
+Input: i really do love this chromebook because it provides a large amount of utility and is perfect for a university setting and environment .
+Output: [('chromebook', 'LAPTOP GENERAL', 'love', 'Positive'), ('chromebook', 'LAPTOP GENERAL', 'perfect', 'Positive')]
+
+Input: * the usb - c ports are working well , and i bought a multiple port adapter , which gives me a regular usb port along with a hdmi port an another usb - c port for charging .
+Output: [('usb - c ports', 'PORTS OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: speaker : good speakers but not the loudest .
+Output: [('speakers', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'good', 'Positive'), ('NULL', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: the device is so sturdy and clean looking it is a pleasure to hold in my hands .
+Output: [('device', 'LAPTOP DESIGN_FEATURES', 'sturdy', 'Positive'), ('device', 'LAPTOP DESIGN_FEATURES', 'clean', 'Positive'), ('device', 'LAPTOP DESIGN_FEATURES', 'pleasure', 'Positive')]
+
+Input: the touchscreen is very responsive and works great in tablet mode .
+Output: [('touchscreen', 'DISPLAY OPERATION_PERFORMANCE', 'responsive', 'Positive'), ('touchscreen', 'DISPLAY OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: the battery life is touted as 10 hours but i find that 7 .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: this is a fantastic chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'fantastic', 'Positive')]
+
+Input: - single battery charge can last 13 - 9 hours depending on wifi / video / app demand
+Output: [('battery charge', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: i love this chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'love', 'Positive'), ('chromebook', 'LAPTOP GENERAL', 'love', 'Positive'), ('chromebook', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: the touchscreen works very well , and android apps are working right now if you ' re on the beta channel for chrome os .
+Output: [('android apps', 'SOFTWARE OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: i love this chromebook !
+Output: [('chromebook', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: / / really love this device .
+Output: [('device', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: i really like the keyboard .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'like', 'Positive')]
+
+Input: the only drawback to the device so far is that it ' s not especially comfortable to use in tablet mode ; the edges of the bezel are little too ` ` sharp ` ` to comfortably rest your palms and at 2 .
+Output: [('edges of the bezel', 'LAPTOP DESIGN_FEATURES', 'sharp', 'Negative')]
+
+Input: as a laptop , this is just the size i need .
+Output: [('laptop', 'LAPTOP DESIGN_FEATURES', 'NULL', 'Positive')]
+
+Input: the keyboard is often - praised , but i don ' t find it particularly spectacular .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'praised', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', "' t find it particularly spectacular", 'Neural')]
+
+Input: it is very light , and it seems surprisingly sturdy .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'sturdy', 'Positive')]
+
+Input: the battery life seems just as promised .
+Output: [('battery life', 'BATTERY GENERAL', 'NULL', 'Neural')]
+
+Input: the keyboard is comfortable to type on , although i haven ' t done so for more than a 1 - 2 hours .
+Output: [('keyboard', 'KEYBOARD USABILITY', 'comfortable', 'Positive')]
+
+Input: the screen is clear and bright and the system doesn ' t lag unless i have a large number of tabs open .
+Output: [('screen', 'DISPLAY DESIGN_FEATURES', 'clear', 'Positive'), ('screen', 'DISPLAY DESIGN_FEATURES', 'bright', 'Positive'), ('system', 'OS OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: first , use case : i write a lot for work and use a chromebook as my daily driver for notes , word processing , spreadsheets , etc .
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Neural')]
+
+Input: battery last incredibly long .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'incredibly', 'Positive'), ('battery', 'BATTERY OPERATION_PERFORMANCE', 'long', 'Positive')]
+
+Input: it found and connected to my wireless printer also with no problems .
+Output: [('it', 'LAPTOP CONNECTIVITY', 'NULL', 'Positive')]
+
+Input: this is exactly what i wanted .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: i now feel like this could be my main computer for work and fun .
+Output: [('computer', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: give the asus flip 302 consideration .
+Output: [('asus flip 302', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: its battery life is quite good and the keyboard experience is great .
+Output: [('battery life', 'BATTERY GENERAL', 'good', 'Positive'), ('keyboard', 'KEYBOARD OPERATION_PERFORMANCE', 'great', 'Positive')]
+
+Input: the plugs are good and bad .
+Output: [('plugs', 'PORTS GENERAL', 'good and bad', 'Neural')]
+
+Input: i plugged in regular headphones and it was horribly low - very unenjoyable to listen to music this way .
+Output: [('headphones', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'horribly', 'Negative'), ('headphones', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'low', 'Negative'), ('headphones', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'unenjoyable', 'Negative')]
+
+Input: nice sized keyboard , works great as a tablet ( even shuts off the keyboard in tablet mode ) .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'nice', 'Positive'), ('tablet', 'LAPTOP DESIGN_FEATURES', 'great', 'Positive')]
+
+Input: this machine is far better than anything i ' ve ever owned .
+Output: [('machine', 'LAPTOP GENERAL', 'better', 'Positive')]
+
+Input: perfect size to use in bed and nice and bright .
+Output: [('size', 'LAPTOP DESIGN_FEATURES', 'perfect', 'Positive'), ('size', 'LAPTOP DESIGN_FEATURES', 'nice', 'Positive'), ('size', 'LAPTOP DESIGN_FEATURES', 'bright', 'Positive')]
+
+Input: i don ' t think you ' ll find a better laptop at this price point .
+Output: [('laptop', 'LAPTOP PRICE', "' t think you ' ll find a better", 'Positive')]
+
+Input: it ' s super thin and super light .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'thin', 'Positive'), ('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive')]
+
+Input: as a traveler , this fits in my backpack without all the added weight of a small 13 ` ` laptop .
+Output: [('NULL', 'LAPTOP PORTABILITY', 'NULL', 'Positive')]
+
+Input: it is very light in weight but feels quite durable and strong .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'durable', 'Positive'), ('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'strong', 'Positive')]
+
+Input: the picture quality is very good and the book itself is responsive and fast .
+Output: [('picture quality', 'DISPLAY QUALITY', 'good', 'Positive'), ('book', 'LAPTOP OPERATION_PERFORMANCE', 'responsive', 'Positive'), ('book', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive')]
+
+Input: i can ' t recommend the asus c302 enough .
+Output: [('asus c302', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: the keyboard itself is probably the one physical weak point .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'weak', 'Negative')]
+
+Input: the touchscreen works well .
+Output: [('touchscreen', 'DISPLAY OPERATION_PERFORMANCE', 'well', 'Positive')]
+
+Input: but , it does work and is handy .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'handy', 'Positive')]
+
+Input: it ' s very light and sitting on the couch typing this is comfortable .
+Output: [('NULL', 'LAPTOP DESIGN_FEATURES', 'light', 'Positive'), ('NULL', 'LAPTOP USABILITY', 'comfortable', 'Positive')]
+
+Input: sound is really low while using an aux speaker / headphone .
+Output: [('sound', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'low', 'Negative'), ('aux speaker / headphone', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'low', 'Negative')]
+
+Input: spacebar doesn ' t always accept input
+Output: [('spacebar', 'KEYBOARD OPERATION_PERFORMANCE', 'NULL', 'Negative')]
+
+Input: this is my favorite computer of all the ones i have ever owned .
+Output: [('computer', 'LAPTOP GENERAL', 'favorite', 'Positive')]
+
+Input: the battery life is stunning .
+Output: [('battery life', 'BATTERY GENERAL', 'stunning', 'Positive')]
+
+Input: i ' ve just gotten started so this review may evolve over time but after several days i ' m insanely satisfied with this purchase and am going to be showing off to my friends for the foreseeable future .
+Output: [('purchase', 'LAPTOP GENERAL', 'satisfied', 'Positive')]
+
+Input: this chromebook is one of the best computers i ' ve ever used .
+Output: [('chromebook', 'LAPTOP GENERAL', 'best', 'Positive'), ('computers', 'LAPTOP GENERAL', 'best', 'Positive')]
+
+Input: the asus chromebook flip 302ca is smooth , fast and incredibly well engineered and built .
+Output: [('asus chromebook flip 302ca', 'LAPTOP OPERATION_PERFORMANCE', 'smooth', 'Positive'), ('asus chromebook flip 302ca', 'LAPTOP OPERATION_PERFORMANCE', 'fast', 'Positive'), ('asus chromebook flip 302ca', 'LAPTOP DESIGN_FEATURES', 'incredibly', 'Positive'), ('asus chromebook flip 302ca', 'LAPTOP DESIGN_FEATURES', 'well', 'Positive')]
+
+Input: the screen resolution is great .
+Output: [('screen resolution', 'DISPLAY GENERAL', 'great', 'Positive')]
+
+Input: the touch pad is accurate .
+Output: [('touch pad', 'HARDWARE OPERATION_PERFORMANCE', 'accurate', 'Positive')]
+
+Input: my only gripe is that i wish there was a way to default the screen brightness as well as default the keyboard backlight to off .
+Output: [('screen brightness', 'DISPLAY DESIGN_FEATURES', 'NULL', 'Negative'), ('keyboard backlight', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Negative')]
+
+Input: at a $ 500 price tag for a chromebook i was a little hesitant to pull the trigger but at this point i am very pleased with the purchase and i believe it is worth the price .
+Output: [('purchase', 'LAPTOP GENERAL', 'pleased', 'Positive'), ('chromebook', 'LAPTOP PRICE', 'worth', 'Positive')]
+
+Input: it ' s really nice to have the touchscreen when using apps and i can seamlessly transition back to using the trackpad / keyboard depending on what i ' m doing .
+Output: [('touchscreen', 'DISPLAY USABILITY', 'nice', 'Positive')]
+
+Input: keyboard is comfortable and screen is sharp .
+Output: [('keyboard', 'KEYBOARD USABILITY', 'comfortable', 'Positive'), ('screen', 'DISPLAY DESIGN_FEATURES', 'sharp', 'Positive')]
+
+Input: its very portable and battery should last full day of normal usage .
+Output: [('NULL', 'LAPTOP PORTABILITY', 'portable', 'Positive'), ('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: i truly love this chromebook .
+Output: [('chromebook', 'LAPTOP GENERAL', 'love', 'Positive')]
+
+Input: the touch screen is really accurate , and the 360 flip feature is really easy - i can switch to tablet mode anytime , although i use this much more often as a laptop .
+Output: [('360 flip', 'Out_Of_Scope DESIGN_FEATURES', 'easy', 'Positive')]
+
+Input: the pros definitely outweigh the cons , earning this chromebook 5 stars .
+Output: [('chromebook', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: great computer , especially for the price .
+Output: [('computer', 'LAPTOP GENERAL', 'great', 'Positive'), ('computer', 'LAPTOP PRICE', 'great', 'Positive')]
+
+Input: - two usb - c for charging ( no more odd angles ! )
+Output: [('usb - c', 'PORTS GENERAL', 'NULL', 'Positive')]
+
+Input: - price is a bit expensive for a chromebook
+Output: [('chromebook', 'LAPTOP PRICE', 'expensive', 'Negative')]
+
+Input: it ' s perfect for school , surfing the web , and watching videos .
+Output: [('NULL', 'LAPTOP GENERAL', 'perfect', 'Positive')]
+
+Input: i really love the laptop , it is exactly what i wanted and expected in the price range and i ' m super happy with it !
+Output: [('laptop', 'LAPTOP GENERAL', 'love', 'Positive'), ('laptop', 'LAPTOP PRICE', 'happy', 'Positive')]
+
+Input: it feels and performs mighty solid as a laptop .
+Output: [('laptop', 'LAPTOP OPERATION_PERFORMANCE', 'solid', 'Positive')]
+
+Input: the wifi connectivity is strong and consistent in my experience .
+Output: [('wifi connectivity', 'PORTS OPERATION_PERFORMANCE', 'strong', 'Positive'), ('wifi connectivity', 'PORTS OPERATION_PERFORMANCE', 'consistent', 'Positive')]
+
+Input: the only thing i didn ' t like is the screen isn ' t bright enough and the speakers aren ' t louder .
+Output: [('screen', 'DISPLAY OPERATION_PERFORMANCE', "' t like", 'Negative'), ('screen', 'DISPLAY OPERATION_PERFORMANCE', "' t bright", 'Negative'), ('speakers', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', "' t louder", 'Negative')]
+
+Input: c302ca - dh54 gets the job done for work that doesn ' t require multiple cores for rendering , weight painting or ripping .
+Output: [('c302ca - dh54', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: the graphics are great .
+Output: [('graphics', 'GRAPHICS GENERAL', 'great', 'Positive')]
+
+Input: i ' m in college right new studying information technology and it ' s been able to do everything i ' ve needed .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: it ' s a bit pricey for a chromebook but worth it right now .
+Output: [('NULL', 'LAPTOP PRICE', 'pricey', 'Negative'), ('NULL', 'LAPTOP GENERAL', 'worth', 'Positive')]
+
+Input: the only drawback is that it does not run the native android versions of microsoft office , and they should warn you about that .
+Output: [('microsoft office', 'SOFTWARE OPERATION_PERFORMANCE', 'drawback', 'Negative')]
+
+Input: this has met and exceeded my expectations .
+Output: [('NULL', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: this is a small , well built product ideal for general usage .
+Output: [('product', 'LAPTOP DESIGN_FEATURES', 'small', 'Positive'), ('product', 'LAPTOP DESIGN_FEATURES', 'well built', 'Positive'), ('product', 'LAPTOP DESIGN_FEATURES', 'ideal', 'Positive')]
+
+Input: the screen resolution is also very good when watching movies or viewing photos .
+Output: [('screen resolution', 'DISPLAY OPERATION_PERFORMANCE', 'good', 'Positive')]
+
+Input: i would highly recommend this !
+Output: [('NULL', 'LAPTOP GENERAL', 'recommend', 'Positive'), ('NULL', 'LAPTOP GENERAL', 'recommend', 'Positive')]
+
+Input: i love the backlight , it ' s not so bright as to blind you at night time .
+Output: [('backlight', 'KEYBOARD DESIGN_FEATURES', 'love', 'Positive')]
+
+Input: speaker ' s are ok but not amazing , i do like that they are mounted on the sides so they work well in laptop or tablet mode equally well .
+Output: [('speaker', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'well', 'Positive'), ('speaker', 'MULTIMEDIA_DEVICES OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: being able to use play store apps has been a huge plus and i ' m now so comfortable with google docs , i ' very already forgotten i even owned a windows laptop .
+Output: [('google docs', 'SOFTWARE USABILITY', 'comfortable', 'Positive')]
+
+Input: but this screen is really good and the keyboard and form factor are much better .
+Output: [('screen', 'DISPLAY GENERAL', 'good', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', 'better', 'Positive'), ('form factor', 'LAPTOP DESIGN_FEATURES', 'better', 'Positive')]
+
+Input: i really enjoy the 2 - 1 aspect of the device and really like how when folded into tablet mode , there aren ' t any weird groves on the sides .
+Output: [('tablet mode', 'LAPTOP GENERAL', 'like', 'Positive')]
+
+Input: the computer itself is not bad , the 360 rotation and touch screen feel good .
+Output: [('computer', 'LAPTOP GENERAL', 'not bad', 'Neural'), ('360 rotation', 'HARDWARE DESIGN_FEATURES', 'good', 'Positive'), ('touch screen', 'DISPLAY GENERAL', 'good', 'Positive')]
+
+Input: battery life is amazing .
+Output: [('battery life', 'BATTERY OPERATION_PERFORMANCE', 'amazing', 'Positive')]
+
+Input: very good purchase .
+Output: [('NULL', 'LAPTOP GENERAL', 'good', 'Positive')]
+
+Input: in laptop form , it ' s mediocre at best .
+Output: [('laptop form', 'LAPTOP GENERAL', 'mediocre', 'Neural')]
+
+Input: this chromebook is really one of the best you can own , in my opinion one of the best laptops in general !
+Output: [('chromebook', 'LAPTOP GENERAL', 'best', 'Positive'), ('laptops', 'LAPTOP GENERAL', 'NULL', 'Positive')]
+
+Input: the battery life is great and i love the touchscreen / flip feature .
+Output: [('battery life', 'BATTERY GENERAL', 'great', 'Positive'), ('NULL', 'DISPLAY GENERAL', 'love', 'Positive')]
+
+Input: audio quest dragonfly is automatically detected and runs perfectly when attached to one of the usb - c ports .
+Output: [('usb - c ports', 'PORTS OPERATION_PERFORMANCE', 'perfectly', 'Positive')]
+
+Input: the keyboard is backlit and big enough for my fingers .
+Output: [('keyboard', 'KEYBOARD DESIGN_FEATURES', 'NULL', 'Positive')]
+
+Input: i love everything about this laptop , the keyboard , screen resolution , and speed .
+Output: [('laptop', 'LAPTOP GENERAL', 'love', 'Positive'), ('keyboard', 'KEYBOARD GENERAL', 'love', 'Positive'), ('screen resolution', 'DISPLAY GENERAL', 'love', 'Positive')]
+
+Input: the battery lasts at least 8 - 9 hours using it to type notes and simple web browsing , making it perfect for students .
+Output: [('battery', 'BATTERY OPERATION_PERFORMANCE', 'perfect', 'Positive')]
+
+Input: it is quick , battery lasts a long time and certainly does what i need it to do ( which is web surfing multiple pages at the same time while having a few ms documents open ) .
+Output: [('NULL', 'LAPTOP OPERATION_PERFORMANCE', 'quick', 'Positive'), ('battery', 'BATTERY OPERATION_PERFORMANCE', 'NULL', 'Positive')]
+
+Input: it ' s a clean , mean , lean , machine .
+Output: [('machine', 'LAPTOP DESIGN_FEATURES', 'clean', 'Positive'), ('machine', 'LAPTOP DESIGN_FEATURES', 'mean', 'Positive'), ('machine', 'LAPTOP DESIGN_FEATURES', 'clean', 'Positive')]
+
+Input: the switch has been awesome .
+Output: [('switch', 'HARDWARE GENERAL', 'awesome', 'Positive')]
+
+Input: the backlit keyboard is awesome at night .
+Output: [('backlit keyboard', 'KEYBOARD DESIGN_FEATURES', 'awesome', 'Positive')]
+
+Input: keyboard was a little confusing .
+Output: [('keyboard', 'KEYBOARD GENERAL', 'confusing', 'Negative')]
+
+Input: screen display is bright and has excellent graphics .
+Output: [('screen display', 'DISPLAY OPERATION_PERFORMANCE', 'bright', 'Positive'), ('graphics', 'GRAPHICS GENERAL', 'excellent', 'Positive')]
+
