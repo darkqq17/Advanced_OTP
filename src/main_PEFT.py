@@ -1,691 +1,567 @@
-import argparse
-import functools
-import itertools
-import os.path
-import time
-
-import torch
+import os
 
 import numpy as np
 
-from benepar import char_lstm
-from benepar import decode_chart
-from benepar import nkutil
-from benepar import parse_chart_PEFT
-import evaluate
-import learning_rates
-import treebanks
-import nltk
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 
-import os
-import loralib as lora
+from transformers import AutoConfig, AutoModel, AutoModelForSequenceClassification  # added for pretrained model
 
-# For testing
-# os.environ["TOKENIZERS_PARALLELISM"] = "false"
+from . import char_lstm
+from . import decode_chart
+from . import nkutil
+from .partitioned_transformer import (
+    ConcatPositionalEncoding,
+    FeatureDropout,
+    PartitionedTransformerEncoder,
+    PartitionedTransformerEncoderLayer,
+)
+from . import parse_base
+from . import retokenization
+from . import subbatching
 
-# Added for adapter
-from config.adapter_config import adapter_configurations
+# Added for adapter ----------------------------------------------------------------
+from peft import get_peft_model, AdaLoraModel, LoHaModel, LoHaConfig, LoKrModel, LoKrConfig
 
-from accelerate import Accelerator
+# Import spaCy for modifier and conjunction extraction
+import spacy
 
-# Defining time for Training
-def format_elapsed(start_time):
-    elapsed_time = int(time.time() - start_time)
-    minutes, seconds = divmod(elapsed_time, 60)
-    hours, minutes = divmod(minutes, 60)
-    days, hours = divmod(hours, 24)
-    elapsed_string = "{}h{:02}m{:02}s".format(hours, minutes, seconds)
-    if days > 0:
-        elapsed_string = "{}d{}".format(days, elapsed_string)
-    return elapsed_string
+# Load spaCy English model
+nlp = spacy.load('en_core_web_sm')
 
 
-def make_hparams():
-    return nkutil.HParams(
-        # Data processing
-        max_len_train=0,  # no length limit
-        max_len_dev=0,  # no length limit
-        # Optimization
-        batch_size=128,
-        learning_rate=0.00005,
-        learning_rate_warmup_steps=160,
-        clip_grad_norm=0.0,  # no clipping
-        checks_per_epoch=4,
-        step_decay_factor=0.5,
-        step_decay_patience=500,
-        max_consecutive_decays=3,  # establishes a termination criterion
-        # CharLSTM
-        use_chars_lstm=False,
-        d_char_emb=64,
-        char_lstm_input_dropout=0.2,
-        # BERT and other pre-trained models
-        use_pretrained=False,
-        pretrained_model="bert-base-uncased",
-        # Partitioned transformer encoder
-        use_encoder=False,
-        d_model=1024, 
-        # d_model=768, #For p_tuning
-        num_layers=8,
-        num_heads=8,
-        d_kv=64,
-        d_ff=2048,
-        encoder_max_len=512,
-        # Dropout
-        morpho_emb_dropout=0.2,
-        attention_dropout=0.2,
-        relu_dropout=0.1,
-        residual_dropout=0.2,
-        # Output heads and losses
-        force_root_constituent="auto",
-        predict_tags=False,
-        d_label_hidden=256,
-        d_tag_hidden=256,
-        tag_loss_scale=5.0,
-    )
+class ChartParser(nn.Module, parse_base.BaseParser):
+    def __init__(
+        self,
+        tag_vocab,
+        label_vocab,
+        char_vocab,
+        hparams,
+        pretrained_model_path=None,
+        adapter_name=None,
+        adapter_config=None,
+        mod_vocab_size=128,
+        conj_vocab_size=128,
+        mod_embedding_dim=128,
+        conj_embedding_dim=128,
+        mod_to_idx=None,
+        conj_to_idx=None,
+    ):
+        super().__init__()
+        self.config = locals()
+        self.config.pop("self")
+        self.config.pop("__class__")
+        self.config.pop("pretrained_model_path")
+        self.config["hparams"] = hparams.to_dict()
 
+        self.tag_vocab = tag_vocab
+        self.label_vocab = label_vocab
+        self.char_vocab = char_vocab
 
-def calculate_f1(pred,gold):
+        self.d_model = hparams.d_model
 
-    gold_seq=[str(i) for i in gold]
-    pred_seq=[str(i) for i in pred]
+        self.char_encoder = None
+        self.pretrained_model = None
+        self.adapter_name = adapter_name
+        self.adapter_config = adapter_config
 
+        # Modifier embedding and projection
+        self.mod_embedding = nn.Embedding(mod_vocab_size, mod_embedding_dim)
+        self.W_mod = nn.Linear(mod_embedding_dim, self.d_model)
 
-    gold_list=[traverse_tree(i) for i in gold]
-    pred_list=[traverse_tree(i) for i in pred]
+        # Conjunction embedding and projection
+        self.conj_embedding = nn.Embedding(conj_vocab_size, conj_embedding_dim)
+        self.W_conj = nn.Linear(conj_embedding_dim, self.d_model)
 
+        # Store modifier and conjunction mappings
+        self.mod_to_idx = mod_to_idx
+        self.conj_to_idx = conj_to_idx
 
-    quad_true_num=0
-    quad_pred_num=0
-    quad_gold_num=0
+        if hparams.use_chars_lstm:
+            assert (
+                not hparams.use_pretrained
+            ), "use_chars_lstm and use_pretrained are mutually exclusive"
+            self.retokenizer = char_lstm.RetokenizerForCharLSTM(self.char_vocab)
+            self.char_encoder = char_lstm.CharacterLSTM(
+                max(self.char_vocab.values()) + 1,
+                hparams.d_char_emb,
+                hparams.d_model // 2,  # Half-size to leave room for
+                # partitioned positional encoding
+                char_dropout=hparams.char_lstm_input_dropout,
+            )
+        elif hparams.use_pretrained:
+            if pretrained_model_path is None:  # when using pretrained model go in here
+                self.retokenizer = retokenization.Retokenizer(
+                    hparams.pretrained_model, retain_start_stop=True
+                )
 
+                self.pretrained_model = AutoModel.from_pretrained(
+                    hparams.pretrained_model
+                )
+                print("hparams.pretrained_model: ", hparams.pretrained_model)
 
-    pair_true_num=0
-    pair_pred_num=0
-    pair_gold_num=0
+                if self.adapter_name in ["LoRA", "LoHa", "LoKr", "IA3", "VeRa", "BOFT", "PrefixTuning", "P_Tuning", "PromptTuning"]:
+                    self.pretrained_model = get_peft_model(self.pretrained_model, adapter_config)
+                    print(f"Training model with using adapter: {self.adapter_name}")
+                elif self.adapter_name == "AdaLoRA":
+                    self.pretrained_model = AdaLoraModel(self.pretrained_model, adapter_config, "default")
+                    print(f"Training model with using adapter: {self.adapter_name}")
 
+                if hasattr(self.pretrained_model, 'print_trainable_parameters'):
+                    self.pretrained_model.print_trainable_parameters()
 
-    aspect_gold_num_set=0
-    opinion_gold_num_set=0
-
-
-    for p,g in zip(pred_list,gold_list):
-        quad_gold_num+=len(set(g))
-        quad_pred_num+=len(set(p))
-        quad_true_num+=len(set(g) & set(p))
-
-
-    quad_p=quad_true_num/quad_pred_num if quad_true_num!=0 else 0
-    quad_r=quad_true_num/quad_gold_num if quad_true_num!=0 else 0
-    quad_f1=(2*quad_p*quad_r)/(quad_p+quad_r) if quad_true_num!=0 else 0
-
-
-    print("Quad:")
-    print("Gold Num:{0}  Pred Num:{1}  True Num:{2} :".format(quad_gold_num,quad_pred_num,quad_true_num))
-    print("Precision:{0}".format(quad_p))
-    print("Recall:{0}".format(quad_r))
-    print("F1:{0}".format(quad_f1))
-
-    return quad_f1,gold_list,pred_list,gold_seq,pred_seq
-
-def saveOutput(pred, gold,pred_seq, gold_seq, adapter_type):
-    output_dir = os.path.join("outputs", adapter_type)
-    os.makedirs(output_dir, exist_ok=True)
-    output_file_path = os.path.join(output_dir, "AMRtoABSAoutput_lap.txt")
-
-    # Open the file for writing
-    with open(output_file_path, "w") as f:
-        pred_out = pred  # [[i.replace("▁"," ") for i in j] for j in pred]
-        gold_out = gold  # [[i.replace("▁"," ") for i in j] for j in gold]
-
-        for p, g, t, o in zip(pred_out, gold_out, pred_seq, gold_seq):
-            # Uncomment if input is needed
-            # f.write("input:\n")
-            # f.write(i)
-            # f.write("\n")
-
-            f.write("ground_truth:\n")
-            f.write(o)
-            f.write("\n\n")
-
-            f.write("output:\n")
-            f.write(t)
-            f.write("\n\n")
-
-            f.write("pred:\n")
-            for sp in p:
-                f.write(str(sp) + "\n")
-            f.write("\n\n")
-
-            f.write("gold:\n")
-            for sg in g:
-                f.write(str(sg) + "\n")
-            f.write("\n\n\n\n\n")
-
-def saveOutputQuad(pred,gold,pred_seq,gold_seq):
-
-    pred_out=pred#[[i.replace("▁"," ") for i in j] for j in pred]
-    gold_out=gold#[[i.replace("▁"," ") for i in j] for j in gold]
-    #print(pred_out)
-    f=open("test_quads.txt","w")
-
-    for p,g,t,o in zip(pred_out,gold_out,pred_seq,gold_seq):
-
-        for sp in p:
-            f.write(str(sp)+"###")
-        f.write("\n")
-    f.close()
-
-def getAO(tree,aspect,opinion,path):
-    #print(tree)
-
-    if type(tree) != nltk.tree.Tree:
-        return 
-    if tree.label()!="Q":
-        path.append(tree.label())
-
-    if "A" in [subtree.label() for subtree in tree]:
-        a=tree.leaves()
-        #path.append(" ".join(a))
-        aspect.append([path[:]," ".join(a)])
-        if path:
-            path.pop(-1)  
-        # if path:
-        #     path.pop(-1)
-        return
-
-    elif "O" in [subtree.label() for subtree in tree]:
-        o=tree.leaves()
-        #path.append(" ".join(o))
-        opinion.append([path[:]," ".join(o)])
-        if path:
-            path.pop(-1)  
-        # if path:
-        #     path.pop(-1)
-        return
-
-    for subtree in tree:
-        if subtree.label()!="W":
-            getAO(subtree,aspect,opinion,path)
-    if tree.label()!="Q":
-        if path:
-            path.pop(-1)
-def traverse_tree(tree):
-    """
-    深度遍历nltk.tree
-    :param tree: nltk.tree对象
-    :return: 无
-    """
-    #print("quad_list in tree:", tree)
-    #print('___________________')
-    quad_list=[]
-    for subtree in tree:
-        if type(subtree) == nltk.tree.Tree and subtree.label()=="Q":
-
-            aspect=[]
-            opinion=[]
-            path=[]
-
-            getAO(subtree,aspect,opinion,path)
-
-#             print(aspect)
-
-#             print(opinion)
-#             print()
-
-            if len(opinion)!=0:
-                new_aspect=[]
-                for a in aspect:
-                    if len(a[0])==1:
-                        new_aspect.append([a[0][0],a[1]])
-                    else:
-                        for c in a[0]:
-                            new_aspect.append([c,a[1]])
-                aspect=new_aspect
             else:
-                aspect=[a[0]+[a[1]] for a in aspect]
+                self.retokenizer = retokenization.Retokenizer(
+                    pretrained_model_path, retain_start_stop=True
+                )
+                self.pretrained_model = AutoModel.from_config(
+                    AutoConfig.from_pretrained(pretrained_model_path)
+                )
+            d_pretrained = self.pretrained_model.config.hidden_size
 
+            if hparams.use_encoder:
+                # original:
+                self.project_pretrained = nn.Linear(
+                    d_pretrained, hparams.d_model // 2, bias=False
+                )
 
-            if len(aspect)!=0:
-                new_opinion=[]
-                for o in opinion:
-                    if len(o[0])==1:
-                        new_opinion.append([o[0][0],o[1]])
-                    else:
-                        for p in o[0]:
-                            new_opinion.append([p,o[1]])
-                opinion=new_opinion
             else:
-                opinion=[o[0]+[o[1]] for o in opinion]
+                # original:
+                self.project_pretrained = nn.Linear(
+                    d_pretrained, hparams.d_model, bias=False
+                )
 
-
-
-
-            #print(aspect)
-            #print(opinion)
-
-            if len(aspect)==0 and len(opinion)==0:
-                continue
-
-            elif len(aspect)==0 and len(opinion)!=0:
-                for o in opinion:
-                    quad_list.append(tuple(["NULL"]+o))
-
-            elif len(aspect)!=0 and len(opinion)==0:
-                for a in aspect:
-                    quad_list.append(tuple(a+["NULL"]))
-
-            elif len(aspect) < len(opinion):
-                for o in opinion:
-                    quad_list.append(tuple(aspect[0]+o))
-
-            elif len(aspect) > len(opinion):
-                for a in aspect:
-                    quad_list.append(tuple(a+opinion[0]))
-
-            elif len(aspect) == len(opinion):
-                for a,o in zip(aspect,opinion):
-                    quad_list.append(tuple(a+o))
-
-            #traverse_tree(subtree)
-    #print(set(quad_list))
-    return set(quad_list)
-
-def run_train(args, hparams):
-    if args.adapter_type == "all":
-        # Iterate over all configurations
-        for adapter_name, config in adapter_configurations.items():
-            print(f"Setting up training for {adapter_name}")
-            run_train_with_adapter(args, hparams, adapter_name, config)
-    else:
-        if args.adapter_type == "None":
-            print("Setting up training without adapter")
-            run_train_with_adapter(args, hparams, "BaseModel", None)
+        if hparams.use_encoder:
+            self.morpho_emb_dropout = FeatureDropout(hparams.morpho_emb_dropout)
+            self.add_timing = ConcatPositionalEncoding(
+                d_model=hparams.d_model,
+                max_len=hparams.encoder_max_len,
+            )
+            encoder_layer = PartitionedTransformerEncoderLayer(
+                hparams.d_model,
+                n_head=hparams.num_heads,
+                d_qkv=hparams.d_kv,
+                d_ff=hparams.d_ff,
+                ff_dropout=hparams.relu_dropout,
+                residual_dropout=hparams.residual_dropout,
+                attention_dropout=hparams.attention_dropout,
+            )
+            self.encoder = PartitionedTransformerEncoder(
+                encoder_layer, hparams.num_layers
+            )
         else:
-            # Load the specific adapter configuration
-            config = adapter_configurations[args.adapter_type]
-            print(f"Setting up training for {args.adapter_type}")
-            run_train_with_adapter(args, hparams, args.adapter_type, config)
+            self.morpho_emb_dropout = None
+            self.add_timing = None
+            self.encoder = None
 
-
-def run_train_with_adapter(args, hparams, adapter_name, config):
-    if args.numpy_seed is not None:
-        print("Setting numpy random seed to {}...".format(args.numpy_seed))
-        np.random.seed(args.numpy_seed)
-
-    # Make sure that pytorch is actually being initialized randomly.
-    # On my cluster I was getting highly correlated results from multiple
-    # runs, but calling reset_parameters() changed that. A brief look at the
-    # pytorch source code revealed that pytorch initializes its RNG by
-    # calling std::random_device, which according to the C++ spec is allowed
-    # to be deterministic.
-    seed_from_numpy = np.random.randint(2147483648)
-    seed_from_numpy = 1455963724#1566850427#
-    print("Manual seed for pytorch:", seed_from_numpy)
-    torch.manual_seed(seed_from_numpy)
-
-    hparams.set_from_args(args)
-    print("Hyperparameters:")
-    hparams.print()
-    
-    print("Loading training trees from {}...".format(args.train_path))
-    train_treebank = treebanks.load_trees(
-        args.train_path, args.train_path_text, args.text_processing
-    )
-    if hparams.max_len_train > 0:
-        train_treebank = train_treebank.filter_by_length(hparams.max_len_train)
-    print("Loaded {:,} training examples.".format(len(train_treebank)))
-
-    print("Loading development trees from {}...".format(args.dev_path))
-    dev_treebank = treebanks.load_trees(
-        args.dev_path, args.dev_path_text, args.text_processing
-    )
-    if hparams.max_len_dev > 0:
-        dev_treebank = dev_treebank.filter_by_length(hparams.max_len_dev)
-    print("Loaded {:,} development examples.".format(len(dev_treebank)))
-
-    print("Constructing vocabularies...")
-    label_vocab = decode_chart.ChartDecoder.build_vocab(train_treebank.trees)
-    if hparams.use_chars_lstm:
-        char_vocab = char_lstm.RetokenizerForCharLSTM.build_vocab(train_treebank.sents)
-    else:
-        char_vocab = None
-
-    tag_vocab = set()
-    for tree in train_treebank.trees:
-        for _, tag in tree.pos():
-            tag_vocab.add(tag)
-    tag_vocab = ["UNK"] + sorted(tag_vocab)
-    tag_vocab = {label: i for i, label in enumerate(tag_vocab)}
-
-    if hparams.force_root_constituent.lower() in ("true", "yes", "1"):
-        hparams.force_root_constituent = True
-    elif hparams.force_root_constituent.lower() in ("false", "no", "0"):
-        hparams.force_root_constituent = False
-    elif hparams.force_root_constituent.lower() == "auto":
-        hparams.force_root_constituent = (
-            decode_chart.ChartDecoder.infer_force_root_constituent(train_treebank.trees)
+        self.f_label = nn.Sequential(
+            nn.Linear(hparams.d_model, hparams.d_label_hidden),
+            nn.LayerNorm(hparams.d_label_hidden),
+            nn.ReLU(),
+            nn.Linear(hparams.d_label_hidden, max(label_vocab.values())),
         )
-        print("Set hparams.force_root_constituent to", hparams.force_root_constituent)
 
-    print("Initializing model...")
-    if adapter_name == "BaseModel":
-        print("Using base model")
-    else:
-        print(f"Using adapter: {adapter_name}")
-    print(tag_vocab)
-    print(label_vocab)
-    print(char_vocab)
-    # Setting the model to use LoRA
-    parser = parse_chart_PEFT.ChartParser(
-        tag_vocab=tag_vocab,
-        label_vocab=label_vocab,
-        char_vocab=char_vocab,
-        hparams=hparams,
-        adapter_name = adapter_name,
-        adapter_config=config,
-    )
-
-    # Set only LoRA parameters as trainable
-    # lora.mark_only_lora_as_trainable(parser)
-
-    # # Count trainable parameters
-    trainable_total = sum([param.nelement() for param in parser.parameters() if param.requires_grad])
-    print("Total number of trainable parameters : %.2fM" % (trainable_total / 1e6))
-    
-    
-    if args.parallelize:
-        parser.parallelize()
-    elif torch.cuda.is_available():
-        parser.cuda()
-    else:
-        print("Not using CUDA!")
-
-    print("Initializing optimizer...")
-    
-    trainable_parameters = [param for param in parser.parameters() if param.requires_grad]
-    optimizer = torch.optim.Adam(
-        trainable_parameters, lr=hparams.learning_rate, betas=(0.9, 0.98), eps=1e-9
-    )
-
-    scheduler = learning_rates.WarmupThenReduceLROnPlateau(
-        optimizer,
-        hparams.learning_rate_warmup_steps,
-        mode="max",
-        factor=hparams.step_decay_factor,
-        patience=hparams.step_decay_patience * hparams.checks_per_epoch,
-        verbose=True,
-    )
-
-    clippable_parameters = trainable_parameters
-    grad_clip_threshold = (
-        np.inf if hparams.clip_grad_norm == 0 else hparams.clip_grad_norm
-    )
-
-    print("Training...")
-    total_processed = 0
-    current_processed = 0
-    check_every = len(train_treebank) / hparams.checks_per_epoch
-    best_dev_fscore = -np.inf
-    best_dev_model_path = None
-    best_dev_processed = 0
-
-    start_time = time.time()
-
-    def check_dev():
-        nonlocal best_dev_fscore
-        nonlocal best_dev_model_path
-        nonlocal best_dev_processed
-
-        dev_start_time = time.time()
-
-        dev_predicted = parser.parse(
-            dev_treebank.without_gold_annotations(),
-            subbatch_max_tokens=args.subbatch_max_tokens,
-        )
-        
-        quad_f1,gold_list,pred_list,gold_seq,pred_seq=calculate_f1(dev_predicted,dev_treebank.trees)
-        
-        # print(len(dev_predicted))
-        # print(dev_treebank.trees[3])
-        # print(traverse_tree(dev_treebank.trees[3]))
-        print(
-            "dev-fscore {} "
-            "dev-elapsed {} "
-            "total-elapsed {}".format(
-                quad_f1,  # dev_fscore,
-                format_elapsed(dev_start_time),
-                format_elapsed(start_time),
-            )
-        )
-        
-        if quad_f1 > best_dev_fscore:
-            
-            saveOutput(pred_list,gold_list,pred_seq,gold_seq, adapter_name)
-            
-            output_dir = os.path.join("outputs", adapter_name)
-            os.makedirs(output_dir, exist_ok=True)
-            
-            if best_dev_model_path is not None:
-                model_file_path = f"{best_dev_model_path}.pt"
-                if os.path.exists(model_file_path):
-                    print(f"Removing previous model file {model_file_path}...")
-                    os.remove(model_file_path)
-
-            best_dev_fscore = quad_f1
-            best_dev_model_path = os.path.join(output_dir, f"model_dev={quad_f1:.2f}")
-            best_dev_processed = total_processed
-        
-            if quad_f1>=0.39:
-                model_save_path = f"{best_dev_model_path}.pt"
-                print("Saving new best model to {}...".format(best_dev_model_path))
-                torch.save(
-                    {
-                        "config": parser.config,
-                        "state_dict": parser.state_dict(),
-                        "optimizer": optimizer.state_dict(),
-                    },
-                    model_save_path,
-                )
-            
-        print("current best f1 {}".format(best_dev_fscore))
-            
-
-    data_loader = torch.utils.data.DataLoader(
-        train_treebank,
-        batch_size=hparams.batch_size,
-        shuffle=True,
-        collate_fn=functools.partial(
-            parser.encode_and_collate_subbatches,
-            subbatch_max_tokens=args.subbatch_max_tokens,
-        ),
-    )
-
-    # Enables the same PyTorch code to be run across any distributed configuration
-    # acclerator = Accelerator()
-    # parser, optimizer, data_loader, scheduler = acclerator.prepare(parser, optimizer, data_loader, scheduler)
-
-    # for epoch in itertools.count(start=1):
-    for epoch in range(1, args.num_epochs + 1):
-        epoch_start_time = time.time()
-        parser.train()
-        
-        for batch_num, batch in enumerate(data_loader, start=1):
-            optimizer.zero_grad()
-
-            batch_loss_value = 0.0
-            for subbatch_size, subbatch in batch:
-                loss = parser.compute_loss(subbatch)
-                loss_value = float(loss.data.cpu().numpy())
-                batch_loss_value += loss_value
-                if loss_value > 0:
-                    loss.backward()
-                del loss
-                total_processed += subbatch_size
-                current_processed += subbatch_size
-
-            grad_norm = torch.nn.utils.clip_grad_norm_(
-                clippable_parameters, grad_clip_threshold
-            )
-            
-            # acclerator.backward(loss)
-            optimizer.step()
-
-            print(
-                "epoch {:,} "
-                "batch {:,}/{:,} "
-                "processed {:,} "
-                "batch-loss {:.4f} "
-                "grad-norm {:.4f} "
-                "epoch-elapsed {} "
-                "total-elapsed {}".format(
-                    epoch,
-                    batch_num,
-                    int(np.ceil(len(train_treebank) / hparams.batch_size)),
-                    total_processed,
-                    batch_loss_value,
-                    grad_norm,
-                    format_elapsed(epoch_start_time),
-                    format_elapsed(start_time),
-                )
+        if hparams.predict_tags:
+            # Original:
+            self.f_tag = nn.Sequential(
+                nn.Linear(hparams.d_model, hparams.d_tag_hidden),
+                nn.LayerNorm(hparams.d_tag_hidden),
+                nn.ReLU(),
+                nn.Linear(hparams.d_tag_hidden, max(tag_vocab.values()) + 1),
             )
 
-            if current_processed >= check_every:
-                current_processed -= check_every
-                check_dev()
-                scheduler.step(metrics=best_dev_fscore)
+            self.tag_loss_scale = hparams.tag_loss_scale
+            self.tag_from_index = {i: label for label, i in tag_vocab.items()}
+        else:
+            self.f_tag = None
+            self.tag_from_index = None
+
+        self.decoder = decode_chart.ChartDecoder(
+            label_vocab=self.label_vocab,
+            force_root_constituent=hparams.force_root_constituent,
+        )
+        self.criterion = decode_chart.SpanClassificationMarginLoss(
+            reduction="sum", force_root_constituent=hparams.force_root_constituent
+        )
+
+        self.parallelized_devices = None
+
+    @property
+    def device(self):
+        if self.parallelized_devices is not None:
+            return self.parallelized_devices[0]
+        else:
+            return next(self.f_label.parameters()).device
+
+    @property
+    def output_device(self):
+        if self.parallelized_devices is not None:
+            return self.parallelized_devices[1]
+        else:
+            return next(self.f_label.parameters()).device
+
+    def parallelize(self, *args, **kwargs):
+        self.parallelized_devices = (torch.device("cuda", 0), torch.device("cuda", 1))
+        for child in self.children():
+            if child != self.pretrained_model:
+                child.to(self.output_device)
+        self.pretrained_model.parallelize(*args, **kwargs)
+
+    @classmethod
+    def from_trained(cls, model_path):
+        if os.path.isdir(model_path):
+            # Multi-file format used when exporting models for release.
+            # Unlike the checkpoints saved during training, these files include
+            # all tokenizer parameters and a copy of the pre-trained model
+            # config (rather than downloading these on-demand).
+            config = AutoConfig.from_pretrained(model_path).benepar
+            state_dict = torch.load(
+                os.path.join(model_path, "benepar_model.bin"), map_location="cpu"
+            )
+            config["pretrained_model_path"] = model_path
+        else:
+            # Single-file format used for saving checkpoints during training.
+            data = torch.load(model_path, map_location="cpu")
+            config = data["config"]
+            state_dict = data["state_dict"]
+
+        hparams = config["hparams"]
+
+        if "force_root_constituent" not in hparams:
+            hparams["force_root_constituent"] = True
+
+        config["hparams"] = nkutil.HParams(**hparams)
+        parser = cls(**config)
+        parser.load_state_dict(state_dict)
+        return parser
+
+    def encode(self, example):
+        if self.char_encoder is not None:
+            encoded = self.retokenizer(example.words, return_tensors="np")
+        else:
+            encoded = self.retokenizer(example.words, example.space_after)
+
+        # Extract the sentence from the example
+        sentence = ' '.join(example.words)
+        doc = nlp(sentence)
+
+        # Extract modifier indices
+        mod_indices = []
+        for token in doc:
+            if token.pos_ in ['ADJ', 'ADV']:
+                mod_word = token.text.lower()
+                mod_idx = self.mod_to_idx.get(mod_word, self.mod_to_idx['<no_mod>'])
             else:
-                scheduler.step()
+                mod_idx = self.mod_to_idx['<no_mod>']
+            mod_indices.append(mod_idx)
+        # Store in the encoded example
+        encoded["mod_indices"] = mod_indices
 
-        if (total_processed - best_dev_processed) > (
-            (hparams.step_decay_patience + 1)
-            * hparams.max_consecutive_decays
-            * len(train_treebank)
+        # Extract conjunction indices
+        seq_len = len(doc)
+        conj_indices = [[self.conj_to_idx['<no_conj>']] * seq_len for _ in range(seq_len)]
+        for token in doc:
+            if token.pos_ == 'CCONJ':
+                left = token.i - 1 if token.i > 0 else token.i
+                right = token.i + 1 if token.i + 1 < seq_len else token.i
+                conj_word = token.text.lower()
+                conj_idx = self.conj_to_idx.get(conj_word, self.conj_to_idx['<no_conj>'])
+                conj_indices[left][right] = conj_idx
+                conj_indices[right][left] = conj_idx  # If symmetric
+        # Store in the encoded example
+        encoded["conj_indices"] = conj_indices
+
+        if example.tree is not None:
+            encoded["span_labels"] = torch.tensor(
+                self.decoder.chart_from_tree(example.tree)
+            )
+            if self.f_tag is not None:
+                encoded["tag_labels"] = torch.tensor(
+                    [-100] + [self.tag_vocab[tag] for _, tag in example.pos()] + [-100]
+                )
+        return encoded
+
+    def pad_encoded(self, encoded_batch):
+        # Exclude 'mod_indices' and 'conj_indices' when calling self.retokenizer.pad
+        batch = self.retokenizer.pad(
+            [
+                {
+                    k: v
+                    for k, v in example.items()
+                    if k not in ["span_labels", "tag_labels", "mod_indices", "conj_indices"]
+                }
+                for example in encoded_batch
+            ],
+            return_tensors="pt",
+        )
+
+        if encoded_batch and "span_labels" in encoded_batch[0]:
+            batch["span_labels"] = decode_chart.pad_charts(
+                [example["span_labels"] for example in encoded_batch]
+            )
+        if encoded_batch and "tag_labels" in encoded_batch[0]:
+            batch["tag_labels"] = nn.utils.rnn.pad_sequence(
+                [example["tag_labels"] for example in encoded_batch],
+                batch_first=True,
+                padding_value=-100,
+            )
+
+        # Pad 'mod_indices'
+        max_len = batch['input_ids'].size(1)
+        batch['mod_indices'] = torch.tensor([
+            ex['mod_indices'] + [self.mod_to_idx['<no_mod>']] * (max_len - len(ex['mod_indices']))
+            for ex in encoded_batch
+        ], dtype=torch.long)
+
+        # Pad 'conj_indices'
+        batch_conj_indices = []
+        for ex in encoded_batch:
+            seq_len = len(ex['conj_indices'])
+            # Pad each row
+            padded_rows = [
+                row + [self.conj_to_idx['<no_conj>']] * (max_len - seq_len)
+                for row in ex['conj_indices']
+            ]
+            # Pad the columns (add rows if necessary)
+            padded_rows += [[self.conj_to_idx['<no_conj>']] * max_len] * (max_len - seq_len)
+            batch_conj_indices.append(padded_rows)
+        batch['conj_indices'] = torch.tensor(batch_conj_indices, dtype=torch.long)
+
+        return batch
+
+
+    def _get_lens(self, encoded_batch):
+        if self.pretrained_model is not None:
+            return [len(encoded["input_ids"]) for encoded in encoded_batch]
+        return [len(encoded["valid_token_mask"]) for encoded in encoded_batch]
+
+    def encode_and_collate_subbatches(self, examples, subbatch_max_tokens):
+        batch_size = len(examples)
+        batch_num_tokens = sum(len(x.words) for x in examples)
+        encoded = [self.encode(example) for example in examples]
+
+        res = []
+        for ids, subbatch_encoded in subbatching.split(
+            encoded, costs=self._get_lens(encoded), max_cost=subbatch_max_tokens
         ):
-            print("Terminating due to lack of improvement in dev fscore.")
-            break
+            subbatch = self.pad_encoded(subbatch_encoded)
+            subbatch["batch_size"] = batch_size
+            subbatch["batch_num_tokens"] = batch_num_tokens
+            res.append((len(ids), subbatch))
+        return res
 
+    def forward(self, batch):
+        valid_token_mask = batch["valid_token_mask"].to(self.output_device)
 
-def run_test(args):
-    
-    print("Loading test trees from {}...".format(args.test_path))
-    test_treebank = treebanks.load_trees(
-        args.test_path, args.test_path_text, args.text_processing
-    )
-    print("Loaded {:,} test examples.".format(len(test_treebank)))
+        if (
+            self.encoder is not None
+            and valid_token_mask.shape[1] > self.add_timing.timing_table.shape[0]
+        ):
+            raise ValueError(
+                "Sentence of length {} exceeds the maximum supported length of "
+                "{}".format(
+                    valid_token_mask.shape[1] - 2,
+                    self.add_timing.timing_table.shape[0] - 2,
+                )
+            )
 
-    if len(args.model_path) != 1:
-        raise NotImplementedError(
-            "Ensembling multiple parsers is not "
-            "implemented in this version of the code."
+        # Get modifier and conjunction indices from batch
+        mod_indices = batch["mod_indices"].to(self.device)  # Shape: (batch_size, seq_len)
+        conj_indices = batch["conj_indices"].to(self.device)  # Shape: (batch_size, seq_len, seq_len)
+
+        # Debugging statements
+        print("mod_indices shape:", batch['mod_indices'].shape)
+        print("input_ids shape:", batch['input_ids'].shape)
+        print("valid_token_mask shape:", batch['valid_token_mask'].shape)
+
+        if self.char_encoder is not None:
+            assert isinstance(self.char_encoder, char_lstm.CharacterLSTM)
+            char_ids = batch["char_ids"].to(self.device)
+            extra_content_annotations = self.char_encoder(char_ids, valid_token_mask)
+        elif self.pretrained_model is not None:
+            input_ids = batch["input_ids"].to(self.device)
+            words_from_tokens = batch["words_from_tokens"].to(self.output_device)
+            pretrained_attention_mask = batch["attention_mask"].to(self.device)
+
+            extra_kwargs = {}
+            if "token_type_ids" in batch:
+                extra_kwargs["token_type_ids"] = batch["token_type_ids"].to(self.device)
+            if "decoder_input_ids" in batch:
+                extra_kwargs["decoder_input_ids"] = batch["decoder_input_ids"].to(
+                    self.device
+                )
+                extra_kwargs["decoder_attention_mask"] = batch[
+                    "decoder_attention_mask"
+                ].to(self.device)
+
+            pretrained_out = self.pretrained_model(
+                input_ids, attention_mask=pretrained_attention_mask, **extra_kwargs
+            )
+
+            features = pretrained_out.last_hidden_state.to(self.output_device)
+
+            features = features[
+                torch.arange(features.shape[0])[:, None],
+                F.relu(words_from_tokens),
+            ]
+
+            features.masked_fill_(~valid_token_mask[:, :, None], 0)
+            if self.encoder is not None:
+                extra_content_annotations = self.project_pretrained(features)
+
+        if self.encoder is not None:
+            encoder_in = self.add_timing(
+                self.morpho_emb_dropout(extra_content_annotations)
+            )
+
+            annotations = self.encoder(encoder_in, valid_token_mask)
+            # Rearrange the annotations to ensure that the transition to
+            # fenceposts captures an even split between position and content.
+            # TODO(nikita): try alternatives, such as omitting position entirely
+            annotations = torch.cat(
+                [
+                    annotations[..., 0::2],
+                    annotations[..., 1::2],
+                ],
+                -1,
+            )
+        else:
+            assert self.pretrained_model is not None
+            annotations = self.project_pretrained(features)
+
+        if self.f_tag is not None:
+            tag_scores = self.f_tag(annotations)
+        else:
+            tag_scores = None
+
+        fencepost_annotations = torch.cat(
+            [
+                annotations[:, :-1, : self.d_model // 2],
+                annotations[:, 1:, self.d_model // 2 :],
+            ],
+            -1,
         )
 
-    model_path = args.model_path[0]
-    print("Loading model from {}...".format(model_path))
-    parser = parse_chart_PEFT.ChartParser.from_trained(model_path)
-    
-    total = sum([param.nelement() for param in parser.parameters()])
-    print("Number of parameters: %.2fM" % (total/1e6))
-    
-    
-    if args.no_predict_tags and parser.f_tag is not None:
-        print("Removing part-of-speech tagging head...")
-        parser.f_tag = None
-    if args.parallelize:
-        parser.parallelize()
-    elif torch.cuda.is_available():
-        
-        parser.cuda()
+        # Compute h_j - h_i (delta_h)
+        delta_h = (
+            torch.unsqueeze(fencepost_annotations, 1)
+            - torch.unsqueeze(fencepost_annotations, 2)
+        )[:, :-1, 1:]  # Shape: (batch_size, seq_len, seq_len, hidden_size)
 
-    print("Parsing test sentences...")
-    
-    print("--------------------------------------------------------")
-    start_time = time.time()
+        # Get modifier embeddings and project
+        mod_embeddings = self.mod_embedding(mod_indices)  # Shape: (batch_size, seq_len, mod_embedding_dim)
+        mod_embeddings_proj = self.W_mod(mod_embeddings)  # Shape: (batch_size, seq_len, hidden_size)
+        mod_embeddings_proj_expanded = mod_embeddings_proj.unsqueeze(2)  # Shape: (batch_size, seq_len, 1, hidden_size)
 
-    test_predicted = parser.parse(
-        test_treebank.without_gold_annotations(),
-        subbatch_max_tokens=args.subbatch_max_tokens,
-    )
-    
-    quad_f1,gold_list,pred_list,gold_seq,pred_seq=calculate_f1(test_predicted,test_treebank.trees)
-    saveOutputQuad(pred_list,gold_list,pred_seq,gold_seq)
+        # Get conjunction embeddings and project
+        conj_embeddings = self.conj_embedding(conj_indices)  # Shape: (batch_size, seq_len, seq_len, conj_embedding_dim)
+        E_conj_ij_transformed = self.W_conj(conj_embeddings)  # Shape: (batch_size, seq_len, seq_len, hidden_size)
 
-    if args.output_path == "-":
-        for tree in test_predicted:
-            print(tree.pformat(margin=1e100))
-    elif args.output_path:
-        with open(args.output_path, "w") as outfile:
-            for tree in test_predicted:
-                outfile.write("{}\n".format(tree.pformat(margin=1e100)))
+        # Compute element-wise multiplication
+        delta_h_weighted = E_conj_ij_transformed * delta_h  # Element-wise multiplication
 
-    # The tree loader does some preprocessing to the trees (e.g. stripping TOP
-    # symbols or SPMRL morphological features). We compare with the input file
-    # directly to be extra careful about not corrupting the evaluation. We also
-    # allow specifying a separate "raw" file for the gold trees: the inputs to
-    # our parser have traces removed and may have predicted tags substituted,
-    # and we may wish to compare against the raw gold trees to make sure we
-    # haven't made a mistake. As far as we can tell all of these variations give
-    # equivalent results.
-    ref_gold_path = args.test_path
-    if args.test_path_raw is not None:
-        print("Comparing with raw trees from", args.test_path_raw)
-        ref_gold_path = args.test_path_raw
+        # Add modifier embeddings
+        span_features = delta_h_weighted + mod_embeddings_proj_expanded  # Shape: (batch_size, seq_len, seq_len, hidden_size)
 
-    print(ref_gold_path)
-    test_fscore = evaluate.evalb(
-        args.evalb_dir, test_treebank.trees, test_predicted, ref_gold_path=ref_gold_path
-    )
-    
-    print("--------------------------------------------------------")
-    print(time.time()-start_time)
-    
-    print(
-        "test-fscore {} "
-        "test-elapsed {}".format(
-            test_fscore,
-            format_elapsed(start_time),
+        # Compute span scores
+        span_scores = self.f_label(span_features)
+        span_scores = torch.cat(
+            [span_scores.new_zeros(span_scores.shape[:-1] + (1,)), span_scores], -1
         )
-    )
 
+        return span_scores, tag_scores
 
-def main():
-    parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers()
+    def compute_loss(self, batch):
+        span_scores, tag_scores = self.forward(batch)
+        span_labels = batch["span_labels"].to(span_scores.device)
+        span_loss = self.criterion(span_scores, span_labels)
+        # Divide by the total batch size, not by the subbatch size
+        span_loss = span_loss / batch["batch_size"]
+        if tag_scores is None:
+            return span_loss
+        else:
+            tag_labels = batch["tag_labels"].to(tag_scores.device)
+            tag_loss = self.tag_loss_scale * F.cross_entropy(
+                tag_scores.reshape((-1, tag_scores.shape[-1])),
+                tag_labels.reshape((-1,)),
+                reduction="sum",
+                ignore_index=-100,
+            )
+            tag_loss = tag_loss / batch["batch_num_tokens"]
+            return span_loss + tag_loss
 
-    hparams = make_hparams()
-    subparser = subparsers.add_parser("train")
-    subparser.set_defaults(callback=lambda args: run_train(args, hparams))
-    hparams.populate_arguments(subparser)
-    # Add adapter selection argument
-    subparser.add_argument("--adapter-type", type=str, choices=["LoRA", "AdaLoRA", "LoHa", "LoKr", "IA3", "VeRa",  "BOFT", "PrefixTuning", "P_Tuning","PromptTuning", "all", "None"], default="all", help="Specify the adapter type to use or 'all' for all types")
-    subparser.add_argument("--numpy-seed", type=int)
-    subparser.add_argument("--num-epochs", type=int)
-    # subparser.add_argument("--model-path-base", required=True)
-    subparser.add_argument("--evalb-dir", default="EVALB/")
-    subparser.add_argument("--train-path", default="data/absa/res_train.txt")
-    subparser.add_argument("--train-path-text", type=str)
-    subparser.add_argument("--dev-path", default="data/absa/res_test.txt")
-    subparser.add_argument("--dev-path-text", type=str)
-    subparser.add_argument("--text-processing", default="default")
-    subparser.add_argument("--subbatch-max-tokens", type=int, default=2000)
-    subparser.add_argument("--parallelize", action="store_true")
-    subparser.add_argument("--print-vocabs", action="store_true")
+    def _parse_encoded(
+        self, examples, encoded, return_compressed=False, return_scores=False
+    ):
+        with torch.no_grad():
+            batch = self.pad_encoded(encoded)
+            span_scores, tag_scores = self.forward(batch)
+            if return_scores:
+                span_scores_np = span_scores.cpu().numpy()
+            else:
+                # Start/stop tokens don't count, so subtract 2
+                lengths = batch["valid_token_mask"].sum(-1) - 2
+                charts_np = self.decoder.charts_from_pytorch_scores_batched(
+                    span_scores, lengths.to(span_scores.device)
+                )
+            if tag_scores is not None:
+                tag_ids_np = tag_scores.argmax(-1).cpu().numpy()
+            else:
+                tag_ids_np = None
 
-    subparser = subparsers.add_parser("test")
-    subparser.set_defaults(callback=run_test)
-    subparser.add_argument("--model-path", nargs="+", required=True)
-    subparser.add_argument("--evalb-dir", default="EVALB/")
-    subparser.add_argument("--test-path", default="data/absa/lap_test.txt")
-    subparser.add_argument("--test-path-text", type=str)
-    subparser.add_argument("--test-path-raw", type=str)
-    subparser.add_argument("--text-processing", default="default")
-    subparser.add_argument("--subbatch-max-tokens", type=int, default=500)
-    subparser.add_argument("--parallelize", action="store_true")
-    subparser.add_argument("--output-path", default="")
-    subparser.add_argument("--no-predict-tags", action="store_true")
+        for i in range(len(encoded)):
+            example_len = len(examples[i].words)
+            if return_scores:
+                yield span_scores_np[i, :example_len, :example_len]
+            elif return_compressed:
+                output = self.decoder.compressed_output_from_chart(charts_np[i])
+                if tag_ids_np is not None:
+                    output = output.with_tags(tag_ids_np[i, 1 : example_len + 1])
+                yield output
+            else:
+                if tag_scores is None:
+                    leaves = examples[i].pos()
+                else:
+                    predicted_tags = [
+                        self.tag_from_index[i]
+                        for i in tag_ids_np[i, 1 : example_len + 1]
+                    ]
+                    leaves = [
+                        (word, predicted_tag)
+                        for predicted_tag, (word, gold_tag) in zip(
+                            predicted_tags, examples[i].pos()
+                        )
+                    ]
+                yield self.decoder.tree_from_chart(charts_np[i], leaves=leaves)
 
-    args = parser.parse_args()
-    args.callback(args)
-
-
-if __name__ == "__main__":
-    main()
+    def parse(
+        self,
+        examples,
+        return_compressed=False,
+        return_scores=False,
+        subbatch_max_tokens=None,
+    ):
+        training = self.training
+        self.eval()
+        encoded = [self.encode(example) for example in examples]
+        if subbatch_max_tokens is not None:
+            res = subbatching.map(
+                self._parse_encoded,
+                examples,
+                encoded,
+                costs=self._get_lens(encoded),
+                max_cost=subbatch_max_tokens,
+                return_compressed=return_compressed,
+                return_scores=return_scores,
+            )
+        else:
+            res = self._parse_encoded(
+                examples,
+                encoded,
+                return_compressed=return_compressed,
+                return_scores=return_scores,
+            )
+            res = list(res)
+        self.train(training)
+        return res
