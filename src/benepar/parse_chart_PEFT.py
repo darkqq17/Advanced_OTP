@@ -6,7 +6,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from transformers import AutoConfig, AutoModel, AutoModelForSequenceClassification # added for pretrained model
+from transformers import AutoConfig, AutoModel, AutoModelForSequenceClassification  # added for pretrained model
 
 from . import char_lstm
 from . import decode_chart
@@ -21,8 +21,15 @@ from . import parse_base
 from . import retokenization
 from . import subbatching
 
-# Added for adpater ----------------------------------------------------------------
+# Added for adapter ----------------------------------------------------------------
 from peft import get_peft_model, AdaLoraModel, LoHaModel, LoHaConfig, LoKrModel, LoKrConfig
+
+# Import spaCy for modifier and conjunction extraction
+import spacy
+
+# Load spaCy English model
+nlp = spacy.load('en_core_web_sm')
+
 
 class ChartParser(nn.Module, parse_base.BaseParser):
     def __init__(
@@ -34,6 +41,12 @@ class ChartParser(nn.Module, parse_base.BaseParser):
         pretrained_model_path=None,
         adapter_name=None,
         adapter_config=None,
+        mod_vocab_size=128,
+        conj_vocab_size=128,
+        mod_embedding_dim=128,
+        conj_embedding_dim=128,
+        mod_to_idx=None,
+        conj_to_idx=None,
     ):
         super().__init__()
         self.config = locals()
@@ -53,6 +66,18 @@ class ChartParser(nn.Module, parse_base.BaseParser):
         self.adapter_name = adapter_name
         self.adapter_config = adapter_config
 
+        # Modifier embedding and projection
+        self.mod_embedding = nn.Embedding(mod_vocab_size, mod_embedding_dim)
+        self.W_mod = nn.Linear(mod_embedding_dim, self.d_model)
+
+        # Conjunction embedding and projection
+        self.conj_embedding = nn.Embedding(conj_vocab_size, conj_embedding_dim)
+        self.W_conj = nn.Linear(conj_embedding_dim, self.d_model)
+
+        # Store modifier and conjunction mappings
+        self.mod_to_idx = mod_to_idx
+        self.conj_to_idx = conj_to_idx
+
         if hparams.use_chars_lstm:
             assert (
                 not hparams.use_pretrained
@@ -66,18 +91,16 @@ class ChartParser(nn.Module, parse_base.BaseParser):
                 char_dropout=hparams.char_lstm_input_dropout,
             )
         elif hparams.use_pretrained:
-            if pretrained_model_path is None: # when using pretrained model go in here
-                print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-                print(pretrained_model_path)
+            if pretrained_model_path is None:  # when using pretrained model go in here
                 self.retokenizer = retokenization.Retokenizer(
                     hparams.pretrained_model, retain_start_stop=True
                 )
-                
+
                 self.pretrained_model = AutoModel.from_pretrained(
-                        hparams.pretrained_model
-                    )
+                    hparams.pretrained_model
+                )
                 print("hparams.pretrained_model: ", hparams.pretrained_model)
-                
+
                 if self.adapter_name in ["LoRA", "LoHa", "LoKr", "IA3", "VeRa", "BOFT", "PrefixTuning", "P_Tuning", "PromptTuning"]:
                     self.pretrained_model = get_peft_model(self.pretrained_model, adapter_config)
                     print(f"Training model with using adapter: {self.adapter_name}")
@@ -89,7 +112,6 @@ class ChartParser(nn.Module, parse_base.BaseParser):
                     self.pretrained_model.print_trainable_parameters()
 
             else:
-                print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                 self.retokenizer = retokenization.Retokenizer(
                     pretrained_model_path, retain_start_stop=True
                 )
@@ -99,23 +121,16 @@ class ChartParser(nn.Module, parse_base.BaseParser):
             d_pretrained = self.pretrained_model.config.hidden_size
 
             if hparams.use_encoder:
-                print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
                 # original:
                 self.project_pretrained = nn.Linear(
                     d_pretrained, hparams.d_model // 2, bias=False
                 )
 
             else:
-                print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                 # original:
                 self.project_pretrained = nn.Linear(
                     d_pretrained, hparams.d_model, bias=False
                 )
-
-                # Modified to use LoRA:
-                # self.project_pretrained = lora.Linear(
-                #     d_pretrained, hparams.d_model, r=16
-                # )
 
         if hparams.use_encoder:
             self.morpho_emb_dropout = FeatureDropout(hparams.morpho_emb_dropout)
@@ -140,18 +155,14 @@ class ChartParser(nn.Module, parse_base.BaseParser):
             self.add_timing = None
             self.encoder = None
 
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         self.f_label = nn.Sequential(
             nn.Linear(hparams.d_model, hparams.d_label_hidden),
-            # lora.Linear(hparams.d_model, hparams.d_label_hidden, r=16),
             nn.LayerNorm(hparams.d_label_hidden),
             nn.ReLU(),
             nn.Linear(hparams.d_label_hidden, max(label_vocab.values())),
-            # lora.Linear(hparams.d_label_hidden, max(label_vocab.values()), r=16),
         )
 
         if hparams.predict_tags:
-            print("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn")
             # Original:
             self.f_tag = nn.Sequential(
                 nn.Linear(hparams.d_model, hparams.d_tag_hidden),
@@ -231,6 +242,36 @@ class ChartParser(nn.Module, parse_base.BaseParser):
         else:
             encoded = self.retokenizer(example.words, example.space_after)
 
+        # Extract the sentence from the example
+        sentence = ' '.join(example.words)
+        doc = nlp(sentence)
+
+        # Extract modifier indices
+        mod_indices = []
+        for token in doc:
+            if token.pos_ in ['ADJ', 'ADV']:
+                mod_word = token.text.lower()
+                mod_idx = self.mod_to_idx.get(mod_word, self.mod_to_idx['<no_mod>'])
+            else:
+                mod_idx = self.mod_to_idx['<no_mod>']
+            mod_indices.append(mod_idx)
+        # Store in the encoded example
+        encoded["mod_indices"] = mod_indices
+
+        # Extract conjunction indices
+        seq_len = len(doc)
+        conj_indices = [[self.conj_to_idx['<no_conj>']] * seq_len for _ in range(seq_len)]
+        for token in doc:
+            if token.pos_ == 'CCONJ':
+                left = token.i - 1 if token.i > 0 else token.i
+                right = token.i + 1 if token.i + 1 < seq_len else token.i
+                conj_word = token.text.lower()
+                conj_idx = self.conj_to_idx.get(conj_word, self.conj_to_idx['<no_conj>'])
+                conj_indices[left][right] = conj_idx
+                conj_indices[right][left] = conj_idx  # If symmetric
+        # Store in the encoded example
+        encoded["conj_indices"] = conj_indices
+
         if example.tree is not None:
             encoded["span_labels"] = torch.tensor(
                 self.decoder.chart_from_tree(example.tree)
@@ -242,17 +283,19 @@ class ChartParser(nn.Module, parse_base.BaseParser):
         return encoded
 
     def pad_encoded(self, encoded_batch):
+        # Exclude 'mod_indices' and 'conj_indices' when calling self.retokenizer.pad
         batch = self.retokenizer.pad(
             [
                 {
                     k: v
                     for k, v in example.items()
-                    if (k != "span_labels" and k != "tag_labels")
+                    if k not in ["span_labels", "tag_labels", "mod_indices", "conj_indices"]
                 }
                 for example in encoded_batch
             ],
             return_tensors="pt",
         )
+
         if encoded_batch and "span_labels" in encoded_batch[0]:
             batch["span_labels"] = decode_chart.pad_charts(
                 [example["span_labels"] for example in encoded_batch]
@@ -263,7 +306,30 @@ class ChartParser(nn.Module, parse_base.BaseParser):
                 batch_first=True,
                 padding_value=-100,
             )
+
+        # Pad 'mod_indices'
+        max_len = batch['input_ids'].size(1)
+        batch['mod_indices'] = torch.tensor([
+            ex['mod_indices'] + [self.mod_to_idx['<no_mod>']] * (max_len - len(ex['mod_indices']))
+            for ex in encoded_batch
+        ], dtype=torch.long)
+
+        # Pad 'conj_indices'
+        batch_conj_indices = []
+        for ex in encoded_batch:
+            seq_len = len(ex['conj_indices'])
+            # Pad each row
+            padded_rows = [
+                row + [self.conj_to_idx['<no_conj>']] * (max_len - seq_len)
+                for row in ex['conj_indices']
+            ]
+            # Pad the columns (add rows if necessary)
+            padded_rows += [[self.conj_to_idx['<no_conj>']] * max_len] * (max_len - seq_len)
+            batch_conj_indices.append(padded_rows)
+        batch['conj_indices'] = torch.tensor(batch_conj_indices, dtype=torch.long)
+
         return batch
+
 
     def _get_lens(self, encoded_batch):
         if self.pretrained_model is not None:
@@ -299,13 +365,21 @@ class ChartParser(nn.Module, parse_base.BaseParser):
                     self.add_timing.timing_table.shape[0] - 2,
                 )
             )
-        
+
+        # Get modifier and conjunction indices from batch
+        mod_indices = batch["mod_indices"].to(self.device)  # Shape: (batch_size, seq_len)
+        conj_indices = batch["conj_indices"].to(self.device)  # Shape: (batch_size, seq_len, seq_len)
+
+        # Debugging statements
+        print("mod_indices shape:", batch['mod_indices'].shape)
+        print("input_ids shape:", batch['input_ids'].shape)
+        print("valid_token_mask shape:", batch['valid_token_mask'].shape)
+
         if self.char_encoder is not None:
             assert isinstance(self.char_encoder, char_lstm.CharacterLSTM)
             char_ids = batch["char_ids"].to(self.device)
             extra_content_annotations = self.char_encoder(char_ids, valid_token_mask)
         elif self.pretrained_model is not None:
-            # print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             input_ids = batch["input_ids"].to(self.device)
             words_from_tokens = batch["words_from_tokens"].to(self.output_device)
             pretrained_attention_mask = batch["attention_mask"].to(self.device)
@@ -321,36 +395,14 @@ class ChartParser(nn.Module, parse_base.BaseParser):
                     "decoder_attention_mask"
                 ].to(self.device)
 
-            # Original:
-            # print(extra_kwargs)
-            # raise ValueError("stop here")
             pretrained_out = self.pretrained_model(
                 input_ids, attention_mask=pretrained_attention_mask, **extra_kwargs
             )
 
-            # Added for LoRA ----------------------------------------------------------------
-            # pretrained_out = self.pretrained_model(
-            #     input_ids, attention_mask=pretrained_attention_mask,**extra_kwargs
-            # )
-
-            # print(pretrained_out.keys())
-
-            # Added for LoRA ----------------------------------------------------------------
-            # features = pretrained_out.logits.to(self.output_device)
-            
-            # Original:
             features = pretrained_out.last_hidden_state.to(self.output_device)
-            
-            aranged_tensor = torch.arange(features.shape[0])[:, None]
-            relu_tensor = F.relu(words_from_tokens)
-            
-            # print("features: ", features.shape)
-            # print("aranged_tensor: ", aranged_tensor.shape)
-            # print("relu_tensor: ", relu_tensor.shape)
 
             features = features[
                 torch.arange(features.shape[0])[:, None],
-                # Note that words_from_tokens uses index -100 for invalid positions
                 F.relu(words_from_tokens),
             ]
 
@@ -391,20 +443,36 @@ class ChartParser(nn.Module, parse_base.BaseParser):
             -1,
         )
 
-        # Note that the bias added to the final layer norm is useless because
-        # this subtraction gets rid of it
-        span_features = (
+        # Compute h_j - h_i (delta_h)
+        delta_h = (
             torch.unsqueeze(fencepost_annotations, 1)
             - torch.unsqueeze(fencepost_annotations, 2)
-        )[:, :-1, 1:]
+        )[:, :-1, 1:]  # Shape: (batch_size, seq_len, seq_len, hidden_size)
+
+        # Get modifier embeddings and project
+        mod_embeddings = self.mod_embedding(mod_indices)  # Shape: (batch_size, seq_len, mod_embedding_dim)
+        mod_embeddings_proj = self.W_mod(mod_embeddings)  # Shape: (batch_size, seq_len, hidden_size)
+        mod_embeddings_proj_expanded = mod_embeddings_proj.unsqueeze(2)  # Shape: (batch_size, seq_len, 1, hidden_size)
+
+        # Get conjunction embeddings and project
+        conj_embeddings = self.conj_embedding(conj_indices)  # Shape: (batch_size, seq_len, seq_len, conj_embedding_dim)
+        E_conj_ij_transformed = self.W_conj(conj_embeddings)  # Shape: (batch_size, seq_len, seq_len, hidden_size)
+
+        # Compute element-wise multiplication
+        delta_h_weighted = E_conj_ij_transformed * delta_h  # Element-wise multiplication
+
+        # Add modifier embeddings
+        span_features = delta_h_weighted + mod_embeddings_proj_expanded  # Shape: (batch_size, seq_len, seq_len, hidden_size)
+
+        # Compute span scores
         span_scores = self.f_label(span_features)
         span_scores = torch.cat(
             [span_scores.new_zeros(span_scores.shape[:-1] + (1,)), span_scores], -1
         )
+
         return span_scores, tag_scores
 
     def compute_loss(self, batch):
-        # print(batch.keys())
         span_scores, tag_scores = self.forward(batch)
         span_labels = batch["span_labels"].to(span_scores.device)
         span_loss = self.criterion(span_scores, span_labels)
