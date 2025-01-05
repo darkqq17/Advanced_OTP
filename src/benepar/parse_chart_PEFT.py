@@ -72,6 +72,8 @@ class ChartParser(nn.Module, parse_base.BaseParser):
 
         # Conjunction embedding and projection
         self.conj_embedding = nn.Embedding(conj_vocab_size, conj_embedding_dim)
+        # print("conj_embedding_dim:", conj_embedding_dim) 1024
+        # print("self.d_model:", self.d_model)
         self.W_conj = nn.Linear(conj_embedding_dim, self.d_model)
 
         # Store modifier and conjunction mappings
@@ -370,10 +372,17 @@ class ChartParser(nn.Module, parse_base.BaseParser):
         mod_indices = batch["mod_indices"].to(self.device)  # Shape: (batch_size, seq_len)
         conj_indices = batch["conj_indices"].to(self.device)  # Shape: (batch_size, seq_len, seq_len)
 
+        # CHANGED: We want them to match (seq_len-1), so we do:
+        # mod_indices= batch['mod_indices'][:, 1:-2]  # CHANGED: remove boundary tokens
+        # conj_indices = batch['conj_indices'][:, 1:-2, 1:-2]  # CHANGED: remove boundary tokens for both dimensions
+
+        # mod_indices = mod_indices.to(self.device)
+        # conj_indices = conj_indices.to(self.device)
+
         # Debugging statements
-        print("mod_indices shape:", batch['mod_indices'].shape)
-        print("input_ids shape:", batch['input_ids'].shape)
-        print("valid_token_mask shape:", batch['valid_token_mask'].shape)
+        # print("mod_indices shape:", batch['mod_indices'].shape)
+        # print("input_ids shape:", batch['input_ids'].shape)
+        # print("valid_token_mask shape:", batch['valid_token_mask'].shape)
 
         if self.char_encoder is not None:
             assert isinstance(self.char_encoder, char_lstm.CharacterLSTM)
@@ -457,10 +466,20 @@ class ChartParser(nn.Module, parse_base.BaseParser):
         # Get conjunction embeddings and project
         conj_embeddings = self.conj_embedding(conj_indices)  # Shape: (batch_size, seq_len, seq_len, conj_embedding_dim)
         E_conj_ij_transformed = self.W_conj(conj_embeddings)  # Shape: (batch_size, seq_len, seq_len, hidden_size)
+        # print("E_conj_ij_transformed shape:", E_conj_ij_transformed.shape)
+        # print("delta_h shape:", delta_h.shape)
+
+        min_dim = tuple(min(E_conj_ij_transformed.size(dim), delta_h.size(dim)) for dim in range(len(delta_h.shape)))
+        E_conj_ij_transformed = E_conj_ij_transformed[:min_dim[0], :min_dim[1], :min_dim[2], :min_dim[3]]
+        # print("E_conj_ij_transformed shape:", E_conj_ij_transformed.shape)
+        # print("delta_h shape:", delta_h.shape)
 
         # Compute element-wise multiplication
         delta_h_weighted = E_conj_ij_transformed * delta_h  # Element-wise multiplication
+        # print("delta_h_weighted shape:", delta_h_weighted.shape)
 
+        min_dim_2 = tuple(min(mod_embeddings_proj_expanded.size(dim), delta_h_weighted.size(dim)) for dim in range(len(delta_h_weighted.shape)))
+        mod_embeddings_proj_expanded = mod_embeddings_proj_expanded[:min_dim_2[0], :min_dim_2[1], :min_dim_2[2], :min_dim_2[3]]
         # Add modifier embeddings
         span_features = delta_h_weighted + mod_embeddings_proj_expanded  # Shape: (batch_size, seq_len, seq_len, hidden_size)
 
