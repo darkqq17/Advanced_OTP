@@ -30,6 +30,7 @@ import spacy
 # Load spaCy English model
 nlp = spacy.load('en_core_web_sm')
 
+from torch.nn.utils.rnn import pad_sequence
 
 class ChartParser(nn.Module, parse_base.BaseParser):
     def __init__(
@@ -309,26 +310,28 @@ class ChartParser(nn.Module, parse_base.BaseParser):
                 padding_value=-100,
             )
 
-        # Pad 'mod_indices'
-        max_len = batch['input_ids'].size(1)
-        batch['mod_indices'] = torch.tensor([
-            ex['mod_indices'] + [self.mod_to_idx['<no_mod>']] * (max_len - len(ex['mod_indices']))
-            for ex in encoded_batch
-        ], dtype=torch.long)
+        # Determine the maximum dimensions required for 'conj_indices'
+        max_seq_len = max(len(ex['conj_indices']) for ex in encoded_batch)
 
-        # Pad 'conj_indices'
+        # Pad 'mod_indices'
+        batch['mod_indices'] = pad_sequence([
+            torch.tensor(ex['mod_indices'], dtype=torch.long) for ex in encoded_batch
+        ], batch_first=True, padding_value=self.mod_to_idx['<no_mod>'])
+
+        # Pad 'conj_indices' to max_seq_len x max_seq_len
         batch_conj_indices = []
         for ex in encoded_batch:
-            seq_len = len(ex['conj_indices'])
-            # Pad each row
-            padded_rows = [
-                row + [self.conj_to_idx['<no_conj>']] * (max_len - seq_len)
-                for row in ex['conj_indices']
-            ]
-            # Pad the columns (add rows if necessary)
-            padded_rows += [[self.conj_to_idx['<no_conj>']] * max_len] * (max_len - seq_len)
-            batch_conj_indices.append(padded_rows)
-        batch['conj_indices'] = torch.tensor(batch_conj_indices, dtype=torch.long)
+            current_seq_len = len(ex['conj_indices'])
+            padded_matrix = torch.full((max_seq_len, max_seq_len), self.conj_to_idx['<no_conj>'], dtype=torch.long)
+            
+            # Copy existing data into the padded matrix
+            current_matrix = torch.tensor(ex['conj_indices'], dtype=torch.long)
+            padded_matrix[:current_seq_len, :current_seq_len] = current_matrix
+            
+            batch_conj_indices.append(padded_matrix)
+
+        # Stack all the padded 'conj_indices' tensors
+        batch['conj_indices'] = torch.stack(batch_conj_indices)
 
         return batch
 
